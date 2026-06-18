@@ -33,7 +33,7 @@ export default function App() {
         setApiStatus("no_groq");
         return false;
       }
-      if (h.status === "ok" || h.index?.status === "ok") {
+      if (h.status === "ok" && h.index?.status === "ok") {
         setApiStatus("ok");
         return false;
       }
@@ -205,6 +205,7 @@ export default function App() {
             key={activeSession.id}
             messages={activeSession.messages}
             onAppend={handleAppend}
+            disabled={apiStatus !== "ok"}
           />
         </main>
       </div>

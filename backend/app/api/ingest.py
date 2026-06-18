@@ -10,6 +10,7 @@ from pathlib import Path
 from fastapi import APIRouter, Header, HTTPException
 
 from app.api.schemas import IngestResponse
+from app.ingestion.embed_index import reset_clients
 from config.settings import BACKEND_ROOT, get_settings
 
 router = APIRouter()
@@ -41,4 +42,5 @@ def post_ingest(x_admin_key: str | None = Header(default=None, alias="X-Admin-Ke
         logger.error("Manual ingest failed: %s", completed.stderr[-500:])
         raise HTTPException(status_code=500, detail="Ingestion failed")
 
+    reset_clients()
     return IngestResponse(status="ok", message="Corpus ingestion completed")

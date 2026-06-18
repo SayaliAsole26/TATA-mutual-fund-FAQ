@@ -11,6 +11,7 @@ import Welcome from "./Welcome";
 interface ChatProps {
   messages: ChatMessage[];
   onAppend: (msg: ChatMessage, firstUserText?: string) => void;
+  disabled?: boolean;
 }
 
 function apiToAssistantMessage(res: ChatApiResponse): ChatMessage {
@@ -57,7 +58,7 @@ function apiToAssistantMessage(res: ChatApiResponse): ChatMessage {
   };
 }
 
-export default function Chat({ messages, onAppend }: ChatProps) {
+export default function Chat({ messages, onAppend, disabled = false }: ChatProps) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -70,7 +71,7 @@ export default function Chat({ messages, onAppend }: ChatProps) {
   const sendMessage = useCallback(
     async (text: string) => {
       const trimmed = text.trim();
-      if (!trimmed || loading) return;
+      if (!trimmed || loading || disabled) return;
 
       const userMsg: ChatMessage = {
         id: crypto.randomUUID(),
@@ -105,14 +106,14 @@ export default function Chat({ messages, onAppend }: ChatProps) {
         setLoading(false);
       }
     },
-    [loading, messages.length, onAppend],
+    [disabled, loading, messages.length, onAppend],
   );
 
   return (
     <>
       <div className="custom-scroll flex-1 space-y-xl overflow-y-auto pb-52">
         {messages.length === 0 ? (
-          <Welcome onExample={sendMessage} disabled={loading} />
+          <Welcome onExample={sendMessage} disabled={loading || disabled} />
         ) : (
           messages.map((m) => <MessageBubble key={m.id} message={m} />)
         )}
@@ -131,7 +132,7 @@ export default function Chat({ messages, onAppend }: ChatProps) {
         <div className="mx-auto max-w-container-max space-y-sm">
           <Disclaimer />
           {messages.length > 0 && (
-            <ExampleChips onSelect={sendMessage} disabled={loading} />
+            <ExampleChips onSelect={sendMessage} disabled={loading || disabled} />
           )}
           {error && (
             <div className="rounded-lg border border-error-container bg-error-container/20 p-sm text-sm text-error">
@@ -143,6 +144,7 @@ export default function Chat({ messages, onAppend }: ChatProps) {
             onChange={setInput}
             onSubmit={() => sendMessage(input)}
             loading={loading}
+            disabled={disabled}
           />
         </div>
       </div>

@@ -5,6 +5,7 @@ interface InputBarProps {
   onChange: (v: string) => void;
   onSubmit: () => void;
   loading?: boolean;
+  disabled?: boolean;
   placeholder?: string;
 }
 
@@ -13,6 +14,7 @@ export default function InputBar({
   onChange,
   onSubmit,
   loading,
+  disabled = false,
   placeholder = "Ask about fund details...",
 }: InputBarProps) {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -29,15 +31,17 @@ export default function InputBar({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
-        disabled={loading}
-        placeholder={placeholder}
+        disabled={loading || disabled}
+        placeholder={
+          disabled ? "Waiting for search index to finish building…" : placeholder
+        }
         className="flex-grow border-none bg-transparent px-sm text-base text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-0 disabled:opacity-60"
         aria-label="Chat message"
       />
       <button
         type="button"
         onClick={onSubmit}
-        disabled={loading || !value.trim()}
+        disabled={loading || disabled || !value.trim()}
         className="flex items-center justify-center rounded-full bg-primary p-sm text-on-primary shadow-lg transition-transform active:scale-95 disabled:opacity-40"
         aria-label="Send message"
       >

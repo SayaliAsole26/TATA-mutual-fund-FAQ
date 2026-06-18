@@ -248,7 +248,7 @@ def rebuild_index(
     with directory swapping while Chroma holds SQLite handles.
     """
     settings = settings or get_settings()
-    batch_size = batch_size or settings.embed_batch_size
+    batch_size = batch_size or getattr(settings, "embed_batch_size", DEFAULT_BATCH_SIZE)
     chunks = load_all_chunk_records(settings)
     if not chunks:
         raise FileNotFoundError(
@@ -282,7 +282,7 @@ def rebuild_index(
     }
 
 
-def stats(settings: Settings | None = None) -> dict[str, Any]:
+def stats(settings: Settings | None = None, *, retry: bool = True) -> dict[str, Any]:
     """Return vector index statistics for verification and monitoring."""
     settings = settings or get_settings()
     if not settings.index_dir.is_dir() or not any(settings.index_dir.iterdir()):
@@ -307,6 +307,10 @@ def stats(settings: Settings | None = None) -> dict[str, Any]:
         }
 
     total = collection.count()
+    if total == 0 and retry:
+        # Subprocess ingest updates SQLite on disk; reopen client to see new data.
+        reset_clients()
+        return stats(settings, retry=False)
     if total == 0:
         return {
             "status": "empty",

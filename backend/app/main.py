@@ -77,6 +77,9 @@ def _bootstrap_index_if_needed() -> None:
         len(chunk_files),
     )
     exit_code, log_tail = _run_logged_ingest(ingest_args)
+    from app.ingestion.embed_index import reset_clients
+
+    reset_clients()
     bootstrap_ingest.mark_finished(exit_code, stderr_tail=log_tail)
     if exit_code == 0:
         logger.info("Background ingest finished: %s", stats(settings))
@@ -127,6 +130,10 @@ def root() -> dict:
         }
     )
     ingest_state = bootstrap_ingest.snapshot()
-    if settings.auto_ingest_on_startup and ingest_state["status"] != "idle":
+    if (
+        settings.auto_ingest_on_startup
+        and ingest_state["status"] != "idle"
+        and payload["index"].get("status") != "ok"
+    ):
         payload["ingest"] = ingest_state
     return payload
