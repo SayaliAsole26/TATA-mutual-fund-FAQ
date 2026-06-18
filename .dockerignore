@@ -1,0 +1,21 @@
+.git
+.github
+.venv
+venv
+env
+.env
+*.pyc
+__pycache__
+.pytest_cache
+frontend/node_modules
+frontend/dist
+stitch_tata_fund_fact_assistant
+Docs folder
+data/raw
+data/index
+data/processed/*
+!data/processed/schemes.json
+*.md
+!backend/README.md
+tests
+terminals
