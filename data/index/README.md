@@ -18,6 +18,7 @@ Collection name: **`tata_mf_faq_chunks`** (cosine similarity).
 Binary embeddings are hard to inspect directly. Export a JSON manifest:
 
 ```bash
+cd backend
 python scripts/export_index_manifest.py
 ```
 
@@ -33,6 +34,7 @@ Use `--full-vectors` only if you need all 1024 dimensions in JSON (large file).
 ## Verify index
 
 ```bash
+cd backend
 python scripts/preview_embed.py --stats
 python scripts/preview_embed.py --query "expense ratio" --scheme tata-elss-fund-direct-growth
 python -c "from app.ingestion.embed_index import stats; import json; print(json.dumps(stats(), indent=2))"
@@ -41,6 +43,7 @@ python -c "from app.ingestion.embed_index import stats; import json; print(json.
 ## Rebuild index
 
 ```bash
+cd backend
 python scripts/preview_embed.py --all
 python scripts/export_index_manifest.py
 ```
@@ -48,5 +51,6 @@ python scripts/export_index_manifest.py
 Full pipeline (fetch → parse → chunk → embed):
 
 ```bash
+cd backend
 python scripts/ingest_corpus.py
 ```

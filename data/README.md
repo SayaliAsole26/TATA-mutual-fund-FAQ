@@ -24,11 +24,13 @@ Use these folders to manually verify each stage of the ingestion pipeline.
 
 1. After fetch: open `raw/<scheme_id>.html`, `raw/<scheme_id>.cleaned.txt`, and `raw/<scheme_id>.json`
 2. After parse: open `processed/<scheme_id>.json`
-3. After chunk: `python scripts/preview_chunks.py --all`
-4. After embed: `python scripts/preview_embed.py --all`
-5. Inspect embeddings: `python scripts/export_index_manifest.py` → `data/index/chromadb/`
+3. After chunk: `cd backend && python scripts/preview_chunks.py --all`
+4. After embed: `cd backend && python scripts/preview_embed.py --all`
+5. Inspect embeddings: `cd backend && python scripts/export_index_manifest.py` → `data/index/chromadb/`
 
 ```bash
+cd backend
+
 # One scheme
 python scripts/preview_ingest.py tata-elss-fund-direct-growth
 

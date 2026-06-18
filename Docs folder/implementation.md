@@ -14,25 +14,30 @@ This document provides a step-by-step implementation guide for building the fact
 | **Ingestion schedule** | Daily at **10:00 IST** (`Asia/Kolkata`) |
 | **Phases** | 5 sequential phases |
 | **LLM** | [Groq](https://groq.com/) API |
-| **Embeddings** | BGE-large + BGE-small (local, free via `sentence-transformers`) |
+| **Embeddings** | BGE-large (index + query); ChromaDB |
 | **UI** | [Stitch](https://stitch.withgoogle.com/) |
 
 ```mermaid
 flowchart LR
-    P1["Phase 1<br/>Corpus & Ingestion"] --> P2["Phase 2<br/>RAG Core"]
-    P2 --> P3["Phase 3<br/>Guardrails"]
-    P3 --> P4["Phase 4<br/>UI"]
-    P4 --> P5["Phase 5<br/>Hardening & Deploy"]
+    P1["Phase 1<br/>Corpus & Ingestion"] --> P2A["Phase 2a<br/>Retrieval"]
+    P2A --> P2B["Phase 2b<br/>RAG Backend"]
+    P2B --> P2C["Phase 2c<br/>API Backend"]
+    P2C --> P4["Phase 4<br/>Frontend"]
+    P2C --> P3["Phase 3<br/>Guardrails"]
+    P3 --> P4
+    P4 --> P5["Phase 5<br/>Hardening"]
 ```
 
 ### Phase Summary
 
 | Phase | Focus | Primary Outcome |
 |-------|--------|-----------------|
-| **1** | Corpus, ingestion, scheduler | Indexed vector store from 15 schemes |
-| **2** | RAG pipeline, chat API | Working `/api/chat` with source-backed answers |
+| **1** | Corpus, ingestion, scheduler | ChromaDB index — 181 chunks, 15 schemes |
+| **2a** | Retrieval layer | 3-tier hybrid retriever (`scheme_id` + section filters) |
+| **2b** | RAG backend | Groq generator + system prompt + context assembly + formatter |
+| **2c** | API backend | FastAPI `POST /api/chat`, health, schemes |
 | **3** | Compliance guardrails | Advisory refusals, PII blocking, output validation |
-| **4** | Stitch web UI | Chat interface with disclaimer and examples |
+| **4** | Frontend (Stitch) | Chat UI in `frontend/` calling the API |
 | **5** | Testing, docs, deployment | Production-ready, monitored system |
 
 ---
@@ -54,8 +59,8 @@ Before Phase 1, set up the development environment:
 |-------|------------|
 | API | FastAPI |
 | Vector store | **ChromaDB** (persistent, local) |
-| Embeddings (ingestion) | `BAAI/bge-large-en-v1.5` — higher-quality corpus indexing |
-| Embeddings (query) | `BAAI/bge-small-en-v1.5` — faster, free runtime query embedding |
+| Embeddings (ingestion + query) | `BAAI/bge-large-en-v1.5` — same model for Chroma index and query (1024-d) |
+| Embeddings (optional future) | `BAAI/bge-small-en-v1.5` — only if a separate small-model index is added |
 | LLM | Groq API (e.g. `llama-3.1-8b-instant` or `llama-3.3-70b-versatile`; low temperature) |
 | UI | Stitch |
 | Scheduler | cron / APScheduler / Kubernetes CronJob |
@@ -68,6 +73,54 @@ GROQ_MODEL=llama-3.1-8b-instant
 EMBEDDING_MODEL_LARGE=BAAI/bge-large-en-v1.5
 EMBEDDING_MODEL_SMALL=BAAI/bge-small-en-v1.5
 ```
+
+---
+
+## Repository layout (Phase 2+)
+
+Split **backend** (Python / FastAPI / RAG) from **frontend** (Stitch UI). Phase 1 ingestion code stays in the backend tree.
+
+```
+TATA-mutual-fund-FAQ/
+├── backend/                      # BACKEND — Python / FastAPI / RAG
+│   ├── README.md
+│   ├── .env.example
+│   ├── requirements.txt
+│   ├── app/
+│   │   ├── main.py               # FastAPI entrypoint (uvicorn app.main:app)
+│   │   ├── api/                  # REST routes (thin — no business logic)
+│   │   │   ├── chat.py           # POST /api/chat
+│   │   │   ├── health.py         # GET /api/health
+│   │   │   └── schemes.py        # GET /api/schemes
+│   │   ├── core/                 # RAG backend
+│   │   │   ├── retriever.py      # Phase 2a — hybrid retrieval
+│   │   │   ├── context.py
+│   │   │   ├── prompts.py
+│   │   │   ├── generator.py
+│   │   │   ├── formatter.py
+│   │   │   ├── orchestrator.py
+│   │   │   ├── scheme_aliases.py
+│   │   │   └── corpus_registry.py
+│   │   └── ingestion/            # Phase 1 pipeline
+│   ├── config/
+│   │   └── settings.py
+│   ├── scripts/
+│   ├── scheduler/
+│   └── tests/
+├── frontend/                     # FRONTEND — Stitch-exported chat UI
+│   ├── README.md
+│   ├── package.json
+│   ├── .env.example              # VITE_API_BASE_URL=http://localhost:8000
+│   └── src/                      # Components, pages, API client
+├── data/                         # corpus, index, processed (shared)
+└── Docs folder/
+```
+
+| Run | Command |
+|-----|---------|
+| Backend API | `cd backend && uvicorn app.main:app --reload --port 8000` |
+| Frontend dev | `cd frontend && npm run dev` |
+| Full ingest | `cd backend && python scripts/ingest_corpus.py` |
 
 ---
 
@@ -232,6 +285,7 @@ Each exported chunk includes `embedding_dim` (1024), `embedding_preview` (first 
 
 - [x] **`scheduler/daily_ingest_job.py`** — Thin wrapper that invokes `ingest_corpus.py`
 - [x] **`scheduler/cron.yaml`** — Cron definition: `0 10 * * *` with `TZ=Asia/Kolkata`
+- [x] **GitHub Actions** — `.github/workflows/daily-ingest.yml` at `30 4 * * *` UTC (10:00 IST)
 - [ ] Configure local dev scheduler (cron, Windows Task Scheduler, or APScheduler) — host-specific
 - [x] Document equivalent UTC expression (`30 4 * * *`) for UTC-only hosts
 
@@ -291,93 +345,266 @@ python scheduler/daily_ingest_job.py
 
 ---
 
-## Phase 2 — RAG Core & Chat API
+## Phase 2 — Retrieval, RAG Backend & API
 
-**Goal:** Implement retrieval, generation, response formatting, and the `/api/chat` endpoint.
+**Goal:** Build the full question-answering stack: hybrid retrieval → Groq generation with a strict system prompt → formatted API responses.
 
 **Duration estimate:** 4–6 days
 
-**Depends on:** Phase 1 (populated vector store)
+**Depends on:** Phase 1 (ChromaDB index at `data/index/`, `schemes.json`)
 
-### 2.1 Tasks
+**Status:** Complete (3-tier retriever, Groq RAG pipeline, FastAPI `/api/chat`, `/api/health`, `/api/schemes`)
 
-#### 2.1.1 Core modules (`app/core/`)
+Phase 2 is split into three build steps: **2a Retrieval** → **2b RAG backend** → **2c API backend**. Phase 4 adds the **frontend** in `frontend/`.
 
-- [ ] **`retriever.py`**
-  - Embed user query with **BGE-small** (`BAAI/bge-small-en-v1.5`) for fast, free local inference
-  - Similarity search against BGE-large-indexed corpus with `k=3–5`
-  - Optional `scheme_id` metadata filter when scheme is detected
-  - Merge top chunks into context (max ~1500 tokens)
+---
 
-- [ ] **`generator.py`**
-  - Call **Groq API** via `GROQ_API_KEY` for text generation
-  - Constrained system prompt (facts-only, context-only, no advice)
-  - Low temperature (0–0.2)
-  - Pass `extracted_at` for footer date
+### Phase 2a — Retrieval layer (`app/core/retriever.py`)
 
-- [ ] **`formatter.py`**
-  - Enforce response structure:
-    ```text
-    <Answer — max 3 sentences>
+**Why hybrid retrieval:** Chunks are **one FAQ section each** (~12–13 per scheme). Pure vector search across 181 chunks without `scheme_id` risks wrong-scheme answers. Structured `schemes.json` already holds many point facts.
 
-    Source: <corpus URL>
+#### 2a.1 Three-tier retrieval strategy
 
-    Last updated from sources: <date>
-    ```
-  - URL allowlist against corpus registry
+```mermaid
+flowchart TD
+    Q[User query] --> S[Resolve scheme_id or clarify]
+    S --> I[Detect intent → section]
+    I --> T1{Field in schemes.json?}
+    T1 -->|yes| M[Tier 1: structured short-circuit]
+    T1 -->|no| T2{High-confidence section?}
+    T2 -->|yes| F[Tier 2: Chroma scheme_id + section k=1-2]
+    T2 -->|no| V[Tier 3: Chroma scheme_id only k=3-5]
+    M --> P[Post-process + context assembly]
+    F --> P
+    V --> P
+```
 
-#### 2.1.2 Query orchestrator
+| Tier | When | Action |
+|------|------|--------|
+| **1 — Structured** | `scheme_id` + intent maps to field in `schemes.json` (`expense_ratio`, `min_sip`, `benchmark`, …) | Return fact from metadata; attach `source_url` + `last_ingested_at` |
+| **2 — Section vector** | Intent → `section` confident (e.g. “exit load” → `exit_load`) | Chroma `where`: `scheme_id` **and** `section`; `k=1–2` |
+| **3 — Broad vector** | Intent unclear or tier 2 empty | Chroma `where`: `scheme_id` only; `k=3` (up to `5` for `tax`, `fund_managers`) |
 
-- [ ] **`app/core/orchestrator.py`**
-  1. Normalize input
-  2. Detect scheme from name/alias map
-  3. Classify intent (basic keyword rules in this phase; expanded in Phase 3)
-  4. Retrieve → generate → format
-  5. Return structured JSON response
+#### 2a.2 Retriever tasks
 
-#### 2.1.3 Scheme detection & aliases
+- [x] **`retriever.py`** — Implement `retrieve(query, scheme_id?, intent_section?) -> RetrievalResult`
+- [x] Embed queries with **BGE-large** (same 1024-d model as index) via `embed_index.embed_query()`
+- [x] **Require `scheme_id` filter** when scheme is resolved; if unresolved → orchestrator clarifies (no global search)
+- [x] Intent → section keyword map (`annual fee` → `expense_ratio`, `minimum SIP` → `min_sip`, …)
+- [x] Post-retrieval: dedupe by `section`; prefer `chunk_source=processed` over `cleaned_fallback`
+- [x] Score threshold: weak similarity → safe fallback template (do not hallucinate)
+- [x] Exclude `nav` section unless user explicitly asks for NAV
+- [x] Merge chunks into context string (max ~1500 tokens; typically 3–5 micro-chunks fit easily)
 
-- [ ] Build alias map: `"ELSS"` → `tata-elss-fund-direct-growth`, `"Silver"` → `tata-silver-etf-fof-direct-growth`, etc.
-- [ ] If scheme-specific question without resolved scheme → return clarifying message
+#### 2a.3 Retriever constants
 
-#### 2.1.4 API layer (`app/api/`)
+| Parameter | Value |
+|-----------|-------|
+| Embedding model | `BAAI/bge-large-en-v1.5` |
+| Vector store | ChromaDB `tata_mf_faq_chunks` |
+| Query prefix | `Represent this sentence for searching relevant passages: ` |
+| `k` (section-known) | `1–2` |
+| `k` (broad fallback) | `3–5` |
 
-- [ ] **`chat.py`** — `POST /api/chat`
-  ```json
-  { "message": "What is the minimum SIP for Tata ELSS?" }
-  ```
-- [ ] **`health.py`** — `GET /api/health`
-- [ ] **`schemes.py`** — `GET /api/schemes` (list 15 schemes for UI)
-- [ ] Wire FastAPI app in `app/main.py`
+---
 
-#### 2.1.5 Structured metadata short-circuit (optional)
+### Phase 2b — RAG backend (Groq + prompts + formatter)
 
-- [ ] For high-confidence intents (`expense_ratio`, `min_sip`, `exit_load`), answer from `schemes.json` when available; fall back to RAG
+Core generation logic lives in `app/core/` — **not** in API route handlers.
 
-### 2.2 Deliverables
+#### 2b.1 Module tasks
+
+- [x] **`context.py`** — Build LLM context block from `RetrievalResult` (chunk `content`, `section`, `scheme_name`, `extracted_at`)
+- [x] **`prompts.py`** — Centralize system prompt and user message template (see §2b.2)
+- [x] **`generator.py`** — Groq chat completion (`GROQ_API_KEY`, `GROQ_MODEL`, temperature `0–0.2`)
+- [x] **`formatter.py`** — Enforce output structure; URL allowlist vs corpus registry
+- [x] **`orchestrator.py`** — Pipeline: normalize → scheme detect → intent → retrieve → generate → format → JSON
+
+#### 2b.2 System prompt (store in `app/core/prompts.py`)
+
+Use this as the **system** message for every Groq call. Keep it stable; tune only with golden-set evals.
+
+```text
+You are the Mutual Fund FAQ Assistant for Tata Mutual Fund schemes listed on Groww.
+You answer facts-only questions using ONLY the retrieved context below.
+
+STRICT RULES:
+1. Use only facts present in RETRIEVED CONTEXT. If the answer is not in context, say you cannot find that information in the official scheme sources and point the user to the scheme page URL provided in context.
+2. Do NOT give investment advice, recommendations, opinions, or predictions.
+3. Do NOT compare funds, rank funds, or say one fund is better than another.
+4. Do NOT calculate, estimate, or infer returns, performance, or future outcomes.
+5. Do NOT invent numbers, fund names, URLs, fund managers, or dates not in context.
+6. Keep the answer body to a maximum of 3 short sentences.
+7. Use the exact currency symbols and percentages from context (e.g. ₹, %).
+8. If context conflicts, prefer the most specific section chunk over general text.
+
+OUTPUT FORMAT (plain text only):
+Line 1-3: Direct factual answer.
+Then a blank line.
+Then exactly: Source: <one Groww scheme URL from context>
+Then exactly: Last updated from sources: <date from extracted_at in context, formatted DD Mon YYYY>
+
+Do not add markdown, bullet lists, disclaimers, or extra links beyond the single Source line.
+```
+
+**User message template** (orchestrator fills variables):
+
+```text
+USER QUESTION:
+{user_message}
+
+RESOLVED SCHEME:
+{scheme_name} ({scheme_id})
+
+RETRIEVED CONTEXT:
+{assembled_chunk_context}
+
+Answer the question following the system rules and output format exactly.
+```
+
+#### 2b.3 Context assembly format (`context.py`)
+
+Each retrieved chunk rendered as:
+
+```text
+[{section}] {content} (source: {source_url}, updated: {extracted_at})
+```
+
+#### 2b.4 Formatter output (`formatter.py`)
+
+Final user-visible text (validator checks in Phase 3):
+
+```text
+<Answer — max 3 sentences>
+
+Source: https://groww.in/mutual-funds/<scheme-slug>
+
+Last updated from sources: 18 Jun 2026
+```
+
+API returns structured JSON **and** this formatted `answer` string for the frontend.
+
+#### 2b.5 Scheme detection (`app/core/scheme_aliases.py`)
+
+- [x] Alias map: `"ELSS"` → `tata-elss-fund-direct-growth`, `"Silver"` → `tata-silver-etf-fof-direct-growth`, etc.
+- [x] Fuzzy match on `scheme_name` from corpus registry
+- [x] If scheme-specific question without resolved scheme → clarifying JSON response (no LLM call)
+
+---
+
+### Phase 2c — API backend (`app/api/` + `app/main.py`)
+
+Thin HTTP layer — delegates to `orchestrator.py`.
+
+#### 2c.1 API tasks
+
+- [x] **`app/main.py`** — FastAPI app, CORS for `frontend/` origin, router registration
+- [x] **`app/api/chat.py`** — `POST /api/chat`
+- [x] **`app/api/health.py`** — `GET /api/health` (includes index `stats()`)
+- [x] **`app/api/schemes.py`** — `GET /api/schemes` (15 schemes for UI hints)
+- [x] Pydantic request/response models in `app/api/schemas.py`
+
+#### 2c.2 API contracts
+
+**`POST /api/chat`**
+
+Request:
+
+```json
+{
+  "message": "What is the minimum SIP for Tata ELSS?"
+}
+```
+
+Response (factual):
+
+```json
+{
+  "type": "answer",
+  "answer": "The minimum SIP amount is ₹500.\n\nSource: https://groww.in/mutual-funds/tata-elss-fund-direct-growth\n\nLast updated from sources: 18 Jun 2026",
+  "scheme_id": "tata-elss-fund-direct-growth",
+  "scheme_name": "Tata ELSS Fund Direct Growth",
+  "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+  "last_updated": "2026-06-18T18:09:51+00:00",
+  "sections_used": ["min_sip"],
+  "retrieval_source": "structured"
+}
+```
+
+Response (clarification):
+
+```json
+{
+  "type": "clarification",
+  "message": "Which Tata scheme do you mean? For example: Tata ELSS Fund, Tata Large Cap Fund, …",
+  "schemes": ["tata-elss-fund-direct-growth", "…"]
+}
+```
+
+**`GET /api/health`**
+
+```json
+{
+  "status": "ok",
+  "index": { "status": "ok", "chunk_count": 181, "scheme_count": 15 }
+}
+```
+
+**`GET /api/schemes`**
+
+```json
+{
+  "amc": "Tata Mutual Fund",
+  "schemes": [
+    {
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "category": "ELSS"
+    }
+  ]
+}
+```
+
+#### 2c.3 CORS & env
+
+| Variable | Purpose |
+|----------|---------|
+| `GROQ_API_KEY` | LLM generation |
+| `GROQ_MODEL` | e.g. `llama-3.1-8b-instant` |
+| `CORS_ORIGINS` | `http://localhost:5173` (Vite frontend dev) |
+| `VITE_API_BASE_URL` | Set in `frontend/.env` |
+
+---
+
+### Phase 2 — Deliverables
 
 | Deliverable | Location |
 |-------------|----------|
-| Retriever | `app/core/retriever.py` |
-| Generator | `app/core/generator.py` |
+| Retriever (2a) | `app/core/retriever.py` |
+| Context assembler | `app/core/context.py` |
+| Prompt templates | `app/core/prompts.py` |
+| Groq generator | `app/core/generator.py` |
 | Formatter | `app/core/formatter.py` |
 | Orchestrator | `app/core/orchestrator.py` |
-| Chat API | `app/api/chat.py` |
+| Scheme aliases | `app/core/scheme_aliases.py` |
+| API routes | `app/api/chat.py`, `health.py`, `schemes.py`, `schemas.py` |
 | API entrypoint | `app/main.py` |
+| Frontend scaffold | `frontend/` (wired in Phase 4) |
 
-### 2.3 Acceptance Criteria
+### Phase 2 — Acceptance criteria
 
-- [ ] `POST /api/chat` returns factual answer for: expense ratio, min SIP, exit load, benchmark, fund manager
-- [ ] Every factual response has exactly one corpus URL citation
-- [ ] Every factual response includes `Last updated from sources: <date>` footer
-- [ ] Answers are ≤3 sentences
-- [ ] `GET /api/schemes` returns all 15 schemes
-- [ ] `GET /api/health` returns 200
-- [ ] Unresolved scheme name triggers clarification, not hallucination
-- [ ] LLM responses are generated via **Groq API** (not OpenAI/Anthropic)
-- [ ] Query embeddings use **BGE-small**; corpus indexed with **BGE-large**
+- [x] Tier 1/2/3 retrieval returns correct section for golden queries (expense ratio, min SIP, exit load, benchmark, fund manager)
+- [x] `POST /api/chat` returns factual answer with exactly one Groww `source_url`
+- [x] Footer `Last updated from sources: <date>` present on every factual answer
+- [x] Answers are ≤3 sentences (body only)
+- [x] Unresolved scheme → `type: clarification` (no hallucination)
+- [x] `GET /api/schemes` returns all 15 schemes
+- [x] `GET /api/health` returns 200 + index stats
+- [x] LLM via **Groq API** only
+- [x] Query + index embeddings both use **BGE-large** (1024-d)
 
-### 2.4 Sample Test Queries
+### Phase 2 — Sample test queries
 
 | Query | Expected behavior |
 |-------|-------------------|
@@ -385,6 +612,22 @@ python scheduler/daily_ingest_job.py
 | What is the minimum SIP for Tata ELSS? | Factual answer with ₹ amount |
 | Who manages Tata Flexi Cap Fund? | Fund manager name(s) |
 | What is the benchmark for Tata BSE Sensex Index Direct? | Benchmark index name |
+| What is the expense ratio? (no scheme) | Clarification response |
+
+### Phase 2 — Verification commands
+
+```bash
+# Start API
+cd backend
+uvicorn app.main:app --reload --port 8000
+
+# Chat smoke test
+curl -X POST http://localhost:8000/api/chat -H "Content-Type: application/json" -d "{\"message\": \"What is the expense ratio for Tata ELSS?\"}"
+
+# Health + schemes
+curl http://localhost:8000/api/health
+curl http://localhost:8000/api/schemes
+```
 
 ---
 
@@ -396,49 +639,51 @@ python scheduler/daily_ingest_job.py
 
 **Depends on:** Phase 2 (working chat pipeline)
 
+**Status:** Complete (input guardrails, output validation, refusal templates, `POST /api/ingest`)
+
 ### 3.1 Tasks
 
 #### 3.1.1 Input guardrails (`app/core/guardrails.py`)
 
-- [ ] **PII scanner** — Regex for PAN, Aadhaar, account numbers, OTP patterns, email, phone
+- [x] **PII scanner** — Regex for PAN, Aadhaar, account numbers, OTP patterns, email, phone
   - Action: refuse immediately; do not log raw payload
 
-- [ ] **Advisory detector** — Patterns: `should I`, `recommend`, `better`, `buy or sell`, `which fund`, `worth investing`
+- [x] **Advisory detector** — Patterns: `should I`, `recommend`, `better`, `buy or sell`, `which fund`, `worth investing`
   - Action: refusal template
 
-- [ ] **Comparative detector** — `better than`, `compare`, `vs`, `which is best`
+- [x] **Comparative detector** — `better than`, `compare`, `vs`, `which is best`
   - Action: refusal template
 
-- [ ] **Performance handler** — Detect return/performance questions
+- [x] **Performance handler** — Detect return/performance questions
   - Action: no calculation; return scheme page link only
 
-- [ ] **Out-of-corpus handler** — Scheme not in registry
+- [x] **Out-of-corpus handler** — Scheme not in registry
   - Action: clarify scope (15 Tata schemes only)
 
 #### 3.1.2 Output validation
 
-- [ ] Sentence count ≤ 3
-- [ ] Exactly one URL from allowlist (corpus or AMFI/SEBI for refusals)
-- [ ] No advice/recommendation language in output
-- [ ] No return calculations or fund comparisons
-- [ ] Footer present with valid date
-- [ ] On failure: regenerate once with stricter prompt, then safe fallback template
+- [x] Sentence count ≤ 3
+- [x] Exactly one URL from allowlist (corpus or AMFI/SEBI for refusals)
+- [x] No advice/recommendation language in output
+- [x] No return calculations or fund comparisons
+- [x] Footer present with valid date
+- [x] On failure: regenerate once with stricter prompt, then safe fallback template
 
 #### 3.1.3 Refusal templates
 
-- [ ] Polite advisory refusal + [AMFI Investor Corner](https://www.amfiindia.com/investor-corner) or [SEBI Investor Education](https://investor.sebi.gov.in/)
-- [ ] PII refusal (no storage, no forwarding to LLM)
-- [ ] Performance refusal (link to scheme page only)
+- [x] Polite advisory refusal + [AMFI Investor Corner](https://www.amfiindia.com/investor-corner) or [SEBI Investor Education](https://investor.sebi.gov.in/)
+- [x] PII refusal (no storage, no forwarding to LLM)
+- [x] Performance refusal (link to scheme page only)
 
 #### 3.1.4 Integrate guardrails into orchestrator
 
-- [ ] Pre-retrieval: input classification + PII scan
-- [ ] Post-generation: output validation loop
-- [ ] Return `type: "refusal"` with `reason` field in API response
+- [x] Pre-retrieval: input classification + PII scan
+- [x] Post-generation: output validation loop
+- [x] Return `type: "refusal"` with `reason` field in API response
 
 #### 3.1.5 Admin ingest endpoint (optional)
 
-- [ ] `POST /api/ingest` — Protected by API key; manual re-index outside 10:00 IST window
+- [x] `POST /api/ingest` — Protected by API key; manual re-index outside 10:00 IST window
 
 ### 3.2 Deliverables
 
@@ -450,13 +695,13 @@ python scheduler/daily_ingest_job.py
 
 ### 3.3 Acceptance Criteria
 
-- [ ] "Should I invest in Tata Small Cap?" → polite refusal + educational link
-- [ ] "Which fund is better?" → refusal
-- [ ] Query containing mock PAN pattern → refused; not stored in logs
-- [ ] "What returns did Tata ELSS give last year?" → scheme page link only, no calculated return
-- [ ] Generated answer with 4 sentences → blocked or truncated by validator
-- [ ] Generated answer with non-corpus URL → blocked or corrected
-- [ ] All refusals include exactly one educational or scheme citation
+- [x] "Should I invest in Tata Small Cap?" → polite refusal + educational link
+- [x] "Which fund is better?" → refusal
+- [x] Query containing mock PAN pattern → refused; not stored in logs
+- [x] "What returns did Tata ELSS give last year?" → scheme page link only, no calculated return
+- [x] Generated answer with 4 sentences → blocked or truncated by validator
+- [x] Generated answer with non-corpus URL → blocked or corrected
+- [x] All refusals include exactly one educational or scheme citation
 
 ### 3.4 Refusal Test Suite
 
@@ -469,20 +714,27 @@ python scheduler/daily_ingest_job.py
 
 ---
 
-## Phase 4 — User Interface (Stitch)
+## Phase 4 — Frontend (Stitch UI in `frontend/`)
 
-**Goal:** Deliver a minimal, compliant chat UI per problem statement, built with **Stitch**.
+**Goal:** Deliver a minimal, compliant chat UI per problem statement, built with **Stitch**, consuming the Phase 2c API.
 
 **Duration estimate:** 2–4 days
 
-**Depends on:** Phase 2 (API) and Phase 3 (guardrails)
+**Depends on:** Phase 2c (API running on port 8000) and Phase 3 (guardrails)
 
 ### 4.1 Tasks
 
-#### 4.1.1 Stitch UI design & build
+#### 4.1.1 Frontend scaffold (`frontend/`)
+
+- [ ] Initialize `frontend/` (Vite + React recommended for Stitch export)
+- [ ] `frontend/.env.example` — `VITE_API_BASE_URL=http://localhost:8000`
+- [ ] `frontend/src/api/client.ts` — `postChat()`, `getSchemes()`, `getHealth()`
+- [ ] Configure CORS on backend (`app/main.py`) for frontend dev origin
+
+#### 4.1.2 Stitch UI design & build
 
 - [ ] Create the chat layout in **Stitch** (welcome screen, disclaimer, example chips, message thread, input bar)
-- [ ] Export / implement Stitch design as the frontend in `app/ui/`
+- [ ] Export / implement Stitch design into `frontend/src/`
 - [ ] Header: **Mutual Fund FAQ Assistant**
 - [ ] Persistent disclaimer banner:
   > Facts-only. No investment advice.
@@ -493,38 +745,39 @@ python scheduler/daily_ingest_job.py
   3. Who manages the Tata Flexi Cap Fund?
 - [ ] Chat message area (user + assistant bubbles)
 - [ ] Input field + send button
-- [ ] Render source links and footer from API response
+- [ ] Render `answer`, `source_url`, and footer from API JSON response
 
-#### 4.1.2 API integration
+#### 4.1.3 API integration
 
-- [ ] `POST /api/chat` on submit
+- [ ] `POST /api/chat` on submit → display `type: answer` or `type: clarification`
 - [ ] Loading state while waiting
-- [ ] Error handling for network/API failures
-- [ ] Optional: `GET /api/schemes` for scheme name hints
+- [ ] Error handling for network/API failures (`GET /api/health` on startup optional)
+- [ ] `GET /api/schemes` for scheme name autocomplete hints (optional)
 
-#### 4.1.3 UX & compliance
+#### 4.1.4 UX & compliance
 
 - [ ] No login, no PII form fields
-- [ ] Sanitize rendered HTML / use safe markdown renderer in Stitch-built UI
+- [ ] Sanitize rendered HTML / safe text rendering only
 - [ ] Mobile-friendly minimal layout
 - [ ] Example chips populate input on click
 
-#### 4.1.4 Stitch implementation notes
+#### 4.1.5 Frontend ↔ backend map
 
-| Item | Detail |
-|------|--------|
-| **Tool** | [Stitch](https://stitch.withgoogle.com/) — UI design and frontend build |
-| **Location** | `app/ui/` — exported Stitch components/pages |
-| **API base URL** | Configure FastAPI backend URL for `POST /api/chat` |
-| **CORS** | Backend must allow Stitch UI origin |
+| Frontend (`frontend/`) | Backend (`app/`) |
+|------------------------|------------------|
+| `src/api/client.ts` | `app/api/chat.py`, `schemes.py`, `health.py` |
+| `src/components/Chat.tsx` | `orchestrator.py` (via API) |
+| `src/components/Disclaimer.tsx` | Static copy (matches problem statement) |
+| `.env` `VITE_API_BASE_URL` | `uvicorn app.main:app` |
 
 ### 4.2 Deliverables
 
 | Deliverable | Location |
 |-------------|----------|
-| Stitch chat UI | `app/ui/` |
-| Disclaimer component | Stitch UI — persistent banner |
-| Example question chips | Stitch UI — clickable chips |
+| Stitch chat UI | `frontend/src/` |
+| API client | `frontend/src/api/client.ts` |
+| Disclaimer component | `frontend/src/components/Disclaimer.tsx` |
+| Example question chips | `frontend/src/components/ExampleChips.tsx` |
 
 ### 4.3 Acceptance Criteria
 
@@ -582,7 +835,7 @@ python scheduler/daily_ingest_job.py
 
 #### 5.1.4 Scheduler operations
 
-- [ ] Production cron / CronJob at **10:00 IST**
+- [ ] Production cron / CronJob at **10:00 IST** — use GitHub Actions `daily-ingest.yml` or host cron
 - [ ] Runbook: what to do on ingestion failure
 - [ ] Alerting on stale `last_ingested_at` (> 26 hours)
 - [ ] Log retention for ingestion runs (start, end, success/fail counts)
@@ -636,18 +889,20 @@ python scheduler/daily_ingest_job.py
 ```mermaid
 flowchart TD
     REG["corpus_registry.json"] --> ING["ingest_corpus.py"]
-    ING --> VDB["vector_store"]
+    ING --> VDB["data/index ChromaDB"]
     ING --> META["schemes.json"]
     SCHED["scheduler 10:00 IST"] --> ING
 
-    VDB --> RET["retriever.py"]
+    VDB --> RET["retriever.py 2a"]
     META --> RET
-    RET --> GEN["generator.py"]
+    RET --> CTX["context.py"]
+    CTX --> GEN["generator.py + prompts.py 2b"]
     GEN --> FMT["formatter.py"]
-    GRD["guardrails.py"] --> ORCH["orchestrator.py"]
-    ORCH --> API["POST /api/chat"]
-    FMT --> API
-    API --> UI["Stitch UI"]
+  GRD["guardrails.py"] --> ORCH["orchestrator.py"]
+    ORCH --> RET
+    FMT --> ORCH
+    ORCH --> API["app/api chat 2c"]
+    API --> FE["frontend/ Phase 4"]
 ```
 
 ---
@@ -656,10 +911,10 @@ flowchart TD
 
 | Week | Phase | Milestone |
 |------|-------|-----------|
-| 1 | Phase 1 | Corpus indexed; scheduler configured |
-| 2 | Phase 2 | `/api/chat` returns source-backed answers |
+| 1 | Phase 1 | ChromaDB indexed; scheduler configured |
+| 2 | Phase 2a–2c | Retriever + RAG backend + `/api/chat` |
 | 2–3 | Phase 3 | Guardrails block advisory/PII; output validated |
-| 3 | Phase 4 | Stitch UI live with disclaimer and examples |
+| 3 | Phase 4 | `frontend/` chat UI with disclaimer and examples |
 | 4 | Phase 5 | Tests green; README; staging deployed |
 
 **Total estimate:** 3–4 weeks for a single developer
@@ -673,7 +928,7 @@ flowchart TD
 | Groww page structure changes | 1, 5 | Version raw snapshots; parser unit tests |
 | LLM hallucination | 2, 3 | Retrieval-first; Groq low temperature; structured metadata; output validation |
 | Scheduler misses run | 1, 5 | Staleness alert; serve last good index |
-| BGE model download on first run | 1, 2 | Cache models locally; document `sentence-transformers` setup |
+| BGE-large query latency on CPU | 2 | Acceptable at ~180 chunks; cache model locally |
 | Rate limiting from Groww | 1 | Throttle fetches; use snapshots as fallback |
 | Groq API rate limits | 2, 5 | Retry with backoff; choose appropriate Groq model tier |
 | Scheme name ambiguity | 2, 4 | Alias map; ask clarifying question in Stitch UI |
@@ -686,7 +941,7 @@ The project is complete when all of the following are true:
 
 - [ ] All 5 phases meet their acceptance criteria
 - [ ] 15-scheme corpus ingests successfully on manual and scheduled runs
-- [ ] Daily scheduler runs at **10:00 IST** in the target environment
+- [ ] Daily scheduler runs at **10:00 IST** in the target environment (GitHub Actions: `.github/workflows/daily-ingest.yml`)
 - [ ] Chat API answers factual queries with ≤3 sentences, one citation, and footer date
 - [ ] Advisory, comparative, PII, and performance queries are handled per spec
 - [ ] Stitch UI shows welcome message, three examples, and persistent disclaimer

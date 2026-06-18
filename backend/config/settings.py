@@ -6,12 +6,13 @@ from pathlib import Path
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+BACKEND_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = BACKEND_ROOT.parent
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=PROJECT_ROOT / ".env",
+        env_file=(BACKEND_ROOT / ".env", REPO_ROOT / ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -19,6 +20,17 @@ class Settings(BaseSettings):
     # Groq LLM
     groq_api_key: str = Field(default="", alias="GROQ_API_KEY")
     groq_model: str = Field(default="llama-3.1-8b-instant", alias="GROQ_MODEL")
+    groq_temperature: float = Field(default=0.1, alias="GROQ_TEMPERATURE")
+
+    # API
+    cors_origins: str = Field(
+        default="http://localhost:5173,http://127.0.0.1:5173",
+        alias="CORS_ORIGINS",
+    )
+    ingest_api_key: str = Field(default="", alias="INGEST_API_KEY")
+
+    # Retrieval
+    retrieval_max_distance: float = Field(default=0.55, alias="RETRIEVAL_MAX_DISTANCE")
 
     # BGE embeddings
     embedding_model_large: str = Field(
@@ -41,10 +53,10 @@ class Settings(BaseSettings):
         alias="GROWW_USER_AGENT",
     )
 
-    # Paths
-    data_dir: Path = Field(default=PROJECT_ROOT / "data", alias="DATA_DIR")
+    # Paths (data/ lives at repo root, shared with frontend docs)
+    data_dir: Path = Field(default=REPO_ROOT / "data", alias="DATA_DIR")
     corpus_registry_path: Path = Field(
-        default=PROJECT_ROOT / "data" / "corpus_registry.json",
+        default=REPO_ROOT / "data" / "corpus_registry.json",
         alias="CORPUS_REGISTRY_PATH",
     )
 
@@ -71,6 +83,10 @@ class Settings(BaseSettings):
     @property
     def schemes_metadata_path(self) -> Path:
         return self.processed_dir / "schemes.json"
+
+    @property
+    def cors_origin_list(self) -> list[str]:
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
 
 
 @lru_cache

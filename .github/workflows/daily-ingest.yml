@@ -1,0 +1,117 @@
+name: Daily Corpus Ingest
+
+# Fetches all 15 Tata Mutual Fund Groww pages, rebuilds chunks + ChromaDB index.
+# Scheduled daily at 10:00 IST (04:30 UTC).
+
+on:
+  schedule:
+    # 10:00 Asia/Kolkata (IST) = 04:30 UTC
+    - cron: "30 4 * * *"
+  workflow_dispatch:
+    inputs:
+      skip_embed:
+        description: Skip BGE-large vector index rebuild
+        type: boolean
+        default: false
+
+concurrency:
+  group: daily-corpus-ingest
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  PREFER_LOCAL_SNAPSHOTS: "false"
+  FETCH_DELAY_SECONDS: "1.5"
+
+jobs:
+  ingest:
+    name: Ingest corpus (10:00 IST)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Cache Hugging Face model (BGE-large)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-bge-large-${{ hashFiles('backend/requirements.txt') }}
+          restore-keys: |
+            hf-bge-large-
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run ingestion pipeline
+        run: |
+          EXTRA=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.event.inputs.skip_embed }}" = "true" ]; then
+            EXTRA="--skip-embed"
+          fi
+          python scripts/ingest_corpus.py --force-live $EXTRA | tee ../ingest-result.json
+
+      - name: Verify ingest status
+        working-directory: .
+        run: |
+          python -c "
+          import json, sys
+          from pathlib import Path
+          data = json.loads(Path('ingest-result.json').read_text())
+          print('Ingest status:', data.get('status'))
+          print('Duration (s):', data.get('duration_seconds'))
+          if data.get('index_stats'):
+              print('Index:', data['index_stats'])
+          if data.get('status') != 'ok':
+              sys.exit(1)
+          "
+
+      - name: Upload ChromaDB index artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chroma-index-${{ github.run_id }}
+          path: data/index/
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Upload ingest summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ingest-summary-${{ github.run_id }}
+          path: ingest-result.json
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Commit refreshed corpus metadata
+        if: success()
+        working-directory: .
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/corpus_registry.json data/processed/schemes.json
+          if git diff --staged --quiet; then
+            echo "No metadata changes to commit."
+          else
+            git commit -m "$(cat <<'EOF'
+chore(ingest): daily corpus metadata refresh [skip ci]
+
+Automated update from Daily Corpus Ingest workflow (10:00 IST).
+EOF
+)"
+            git push
+          fi
