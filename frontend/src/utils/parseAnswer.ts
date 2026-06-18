@@ -4,28 +4,88 @@ export interface ParsedAnswer {
   lastUpdated: string | null;
 }
 
-/** Split API formatted answer into body + metadata (source below, not inline). */
-export function parseFormattedAnswer(answer: string): ParsedAnswer {
-  const sourceIdx = answer.search(/\n\nSource:\s*/i);
-  if (sourceIdx === -1) {
-    return { body: answer.trim(), sourceUrl: null, lastUpdated: null };
+const SOURCE_MARKER = /\sSource:\s*/i;
+const SOURCE_URL = /Source:\s*(https?:\/\/\S+)/i;
+const LAST_UPDATED =
+  /Last updated(?: from sources)?:\s*([^\n]+?)(?:\s*$|\s*Source:)/i;
+const LAST_UPDATED_INLINE = /Last updated(?: from sources)?:\s*(.+?)$/i;
+
+/** Strip markdown bold markers before rendering. */
+export function stripMarkdownBold(text: string): string {
+  return text.replace(/\*\*([^*]+)\*\*/g, "$1");
+}
+
+function normalizeBody(body: string): string {
+  return stripMarkdownBold(body).replace(/\s+/g, " ").trim();
+}
+
+function extractLastUpdated(text: string): { text: string; lastUpdated: string | null } {
+  const match =
+    text.match(LAST_UPDATED) ?? text.match(LAST_UPDATED_INLINE);
+  if (!match) return { text, lastUpdated: null };
+  const lastUpdated = match[1].trim().replace(/\.$/, "");
+  return { text: text.replace(match[0], "").trim(), lastUpdated };
+}
+
+function extractSource(text: string): { body: string; sourceUrl: string | null } {
+  const doubleNlIdx = text.search(/\n\nSource:\s*/i);
+  if (doubleNlIdx !== -1) {
+    const body = text.slice(0, doubleNlIdx).trim();
+    const tail = text.slice(doubleNlIdx);
+    const urlMatch = tail.match(SOURCE_URL);
+    return { body, sourceUrl: urlMatch?.[1]?.trim() ?? null };
   }
 
-  const body = answer.slice(0, sourceIdx).trim();
-  const tail = answer.slice(sourceIdx);
-  const sourceMatch = tail.match(/Source:\s*(.+)/i);
-  const footerMatch = tail.match(/Last updated from sources:\s*(.+)/i);
+  const singleNlIdx = text.search(/\nSource:\s*/i);
+  if (singleNlIdx !== -1) {
+    const body = text.slice(0, singleNlIdx).trim();
+    const tail = text.slice(singleNlIdx);
+    const urlMatch = tail.match(SOURCE_URL);
+    return { body, sourceUrl: urlMatch?.[1]?.trim() ?? null };
+  }
+
+  const inlineIdx = text.search(SOURCE_MARKER);
+  if (inlineIdx !== -1) {
+    const body = text.slice(0, inlineIdx).trim();
+    const tail = text.slice(inlineIdx);
+    const urlMatch = tail.match(SOURCE_URL);
+    return { body, sourceUrl: urlMatch?.[1]?.trim() ?? null };
+  }
+
+  return { body: text, sourceUrl: null };
+}
+
+/** Split API formatted answer into body + metadata (source below, not inline). */
+export function parseFormattedAnswer(answer: string): ParsedAnswer {
+  const withoutFooter = extractLastUpdated(answer.trim());
+  const { body, sourceUrl } = extractSource(withoutFooter.text);
 
   return {
-    body,
-    sourceUrl: sourceMatch?.[1]?.trim() ?? null,
-    lastUpdated: footerMatch?.[1]?.trim() ?? null,
+    body: normalizeBody(body),
+    sourceUrl,
+    lastUpdated: withoutFooter.lastUpdated,
   };
+}
+
+/** Format ISO or human date for footer display. */
+export function formatLastUpdated(raw: string | null | undefined): string | null {
+  if (!raw?.trim()) return null;
+  const trimmed = raw.trim();
+  const parsed = new Date(trimmed);
+  if (!Number.isNaN(parsed.getTime()) && /^\d{4}-\d{2}-\d{2}/.test(trimmed)) {
+    return parsed.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  }
+  return trimmed.replace(/\.$/, "");
 }
 
 /** Highlight ₹ amounts, percentages, and key numerics in answer body. */
 export function highlightAnswerHtml(body: string): string {
-  const escaped = body
+  const cleaned = stripMarkdownBold(body);
+  const escaped = cleaned
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
@@ -33,7 +93,7 @@ export function highlightAnswerHtml(body: string): string {
   return escaped
     .replace(/(₹[\d,]+(?:\.\d+)?)/g, '<span class="highlight-fact">$1</span>')
     .replace(/(\d+(?:\.\d+)?%)/g, '<span class="highlight-fact">$1</span>')
-    .replace(/\b(Tata[\w\s&]+?(?:Fund|Growth|Direct|Plan|Index)[\w\s]*)/gi, (m) =>
+    .replace(/\b(Tata[\w\s&]+?(?:Fund|Growth|Direct|Plan|Index|FoF)[\w\s]*)/gi, (m) =>
       m.length > 8 ? `<span class="highlight-fact">${m}</span>` : m,
     );
 }

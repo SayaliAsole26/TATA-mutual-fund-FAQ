@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { postChat } from "../api/client";
 import type { ChatApiResponse, ChatMessage } from "../types/chat";
-import { parseFormattedAnswer } from "../utils/parseAnswer";
+import { formatLastUpdated, parseFormattedAnswer } from "../utils/parseAnswer";
 import ExampleChips from "./ExampleChips";
 import Disclaimer from "./Disclaimer";
 import InputBar from "./InputBar";
@@ -28,7 +28,8 @@ function apiToAssistantMessage(res: ChatApiResponse): ChatMessage {
       content: res.answer,
       responseType: "answer",
       sourceUrl: res.source_url ?? parsed.sourceUrl ?? undefined,
-      lastUpdated: parsed.lastUpdated ?? undefined,
+      lastUpdated:
+        formatLastUpdated(res.last_updated) ?? parsed.lastUpdated ?? undefined,
       schemeName: res.scheme_name,
     };
   }
