@@ -18,14 +18,25 @@ export default function App() {
   } = useChatSessions();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [apiStatus, setApiStatus] = useState<"checking" | "ok" | "degraded">(
-    "checking",
-  );
+  const [apiStatus, setApiStatus] = useState<
+    "checking" | "ok" | "unreachable" | "no_index"
+  >("checking");
 
   useEffect(() => {
     getHealth()
-      .then((h) => setApiStatus(h.status === "ok" ? "ok" : "degraded"))
-      .catch(() => setApiStatus("degraded"));
+      .then((h) => {
+        if (h.status === "ok") {
+          setApiStatus("ok");
+          return;
+        }
+        const indexStatus = h.index?.status;
+        if (indexStatus === "empty" || indexStatus === "missing_collection") {
+          setApiStatus("no_index");
+          return;
+        }
+        setApiStatus("unreachable");
+      })
+      .catch(() => setApiStatus("unreachable"));
   }, []);
 
   const handleAppend = useCallback(
@@ -70,12 +81,52 @@ export default function App() {
           sessionsOpen={sidebarOpen}
         />
 
-        {apiStatus === "degraded" && (
+        {apiStatus === "unreachable" && (
           <div className="mx-md mt-20 rounded-lg border border-error-container bg-error-container/20 px-md py-sm text-sm text-on-error-container">
-            API unavailable — run{" "}
-            <code className="font-mono text-xs">
-              cd backend && uvicorn app.main:app --port 8000
-            </code>
+            {import.meta.env.PROD ? (
+              <>
+                Cannot reach the backend API.
+                {!import.meta.env.VITE_API_BASE_URL && (
+                  <>
+                    {" "}
+                    <strong>VITE_API_BASE_URL</strong> was not set when this
+                    site was built — add it in Vercel (e.g.{" "}
+                    <code className="font-mono text-xs">
+                      https://your-app.up.railway.app
+                    </code>
+                    ) and redeploy.
+                  </>
+                )}
+                {import.meta.env.VITE_API_BASE_URL && (
+                  <>
+                    {" "}
+                    Check that{" "}
+                    <code className="font-mono text-xs">
+                      {import.meta.env.VITE_API_BASE_URL}
+                    </code>{" "}
+                    is running and that Railway{" "}
+                    <code className="font-mono text-xs">CORS_ORIGINS</code>{" "}
+                    includes this Vercel URL.
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                API unavailable — run{" "}
+                <code className="font-mono text-xs">
+                  cd backend && uvicorn app.main:app --port 8000
+                </code>
+              </>
+            )}
+          </div>
+        )}
+
+        {apiStatus === "no_index" && (
+          <div className="mx-md mt-20 rounded-lg border border-secondary-container bg-secondary-container/20 px-md py-sm text-sm text-on-surface">
+            Backend is online but the corpus index is missing. On Railway, run{" "}
+            <code className="font-mono text-xs">POST /api/ingest</code> with your{" "}
+            <code className="font-mono text-xs">INGEST_API_KEY</code>, or attach
+            the Chroma artifact from GitHub Actions.
           </div>
         )}
 
