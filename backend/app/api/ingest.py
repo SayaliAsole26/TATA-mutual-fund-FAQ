@@ -31,7 +31,7 @@ def post_ingest(x_admin_key: str | None = Header(default=None, alias="X-Admin-Ke
 
     logger.info("Manual ingest triggered via API")
     completed = subprocess.run(
-        [sys.executable, str(INGEST_SCRIPT)],
+        [sys.executable, str(INGEST_SCRIPT), "--force-live"],
         cwd=str(BACKEND_ROOT),
         check=False,
         capture_output=True,

@@ -24,7 +24,9 @@ WORKDIR /app/backend
 ENV PYTHONUNBUFFERED=1 \
     HF_HOME=/app/.cache/huggingface \
     TRANSFORMERS_CACHE=/app/.cache/huggingface \
-    DATA_DIR=/app/data
+    DATA_DIR=/app/data \
+    PREFER_LOCAL_SNAPSHOTS=false \
+    AUTO_INGEST_ON_STARTUP=true
 
 EXPOSE 8000
 
