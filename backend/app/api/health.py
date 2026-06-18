@@ -39,7 +39,7 @@ def build_health_payload() -> dict:
     }
     if bootstrap_ingest is not None and settings.auto_ingest_on_startup:
         ingest_state = bootstrap_ingest.snapshot()
-        if ingest_state["status"] != "idle":
+        if ingest_state["status"] != "idle" and index.get("status") != "ok":
             payload["ingest"] = ingest_state
     return payload
 

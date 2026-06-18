@@ -24,25 +24,49 @@ export default function App() {
   const [ingestInfo, setIngestInfo] = useState<HealthResponse["ingest"]>();
 
   useEffect(() => {
-    getHealth()
-      .then((h) => {
-        setIngestInfo(h.ingest);
-        if (h.llm && !h.llm.configured) {
-          setApiStatus("no_groq");
-          return;
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const applyHealth = (h: HealthResponse): boolean => {
+      setIngestInfo(h.ingest);
+      if (h.llm && !h.llm.configured) {
+        setApiStatus("no_groq");
+        return false;
+      }
+      if (h.status === "ok" || h.index?.status === "ok") {
+        setApiStatus("ok");
+        return false;
+      }
+      const indexStatus = h.index?.status;
+      if (indexStatus === "empty" || indexStatus === "missing_collection") {
+        setApiStatus("no_index");
+        return h.ingest?.status === "running";
+      }
+      setApiStatus("unreachable");
+      return true;
+    };
+
+    const poll = async () => {
+      try {
+        const h = await getHealth();
+        if (cancelled) return;
+        const keepPolling = applyHealth(h);
+        if (keepPolling) {
+          timer = setTimeout(poll, 5000);
         }
-        if (h.status === "ok") {
-          setApiStatus("ok");
-          return;
+      } catch {
+        if (!cancelled) {
+          setApiStatus("unreachable");
+          timer = setTimeout(poll, 10000);
         }
-        const indexStatus = h.index?.status;
-        if (indexStatus === "empty" || indexStatus === "missing_collection") {
-          setApiStatus("no_index");
-          return;
-        }
-        setApiStatus("unreachable");
-      })
-      .catch(() => setApiStatus("unreachable"));
+      }
+    };
+
+    poll();
+    return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+    };
   }, []);
 
   const handleAppend = useCallback(
@@ -156,9 +180,8 @@ export default function App() {
                 {ingestInfo.mode === "embed_only"
                   ? "embedding bundled corpus"
                   : "fetching Groww pages"}
-                ) — usually 3–10 minutes. Refresh this page when{" "}
-                <code className="font-mono text-xs">/api/health</code> shows{" "}
-                <code className="font-mono text-xs">status: ok</code>.
+                ) — usually 3–10 minutes. This page will update automatically when
+                the index is ready.
               </>
             ) : ingestInfo?.status === "failed" ? (
               <>
