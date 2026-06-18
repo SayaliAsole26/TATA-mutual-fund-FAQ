@@ -77,4 +77,10 @@ export interface SchemesResponse {
 export interface HealthResponse {
   status: string;
   index: Record<string, unknown>;
+  llm?: {
+    provider: string;
+    configured: boolean;
+    model: string;
+  };
+  issues?: string[];
 }

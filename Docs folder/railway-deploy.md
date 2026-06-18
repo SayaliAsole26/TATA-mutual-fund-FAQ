@@ -22,7 +22,7 @@ The failing deploy was triggered by the GitHub Actions ingest commit (`chore(ing
 
 | Variable | Required | Example |
 |----------|----------|---------|
-| `GROQ_API_KEY` | Yes | `gsk_…` |
+| `GROQ_API_KEY` | **Yes** | `gsk_…` from [console.groq.com](https://console.groq.com) — **backend only (Railway), not Vercel** |
 | `GROQ_MODEL` | No | `llama-3.1-8b-instant` |
 | `CORS_ORIGINS` | Yes (if using hosted frontend) | `https://your-frontend.up.railway.app` |
 | `INGEST_API_KEY` | Optional | For `POST /api/ingest` |

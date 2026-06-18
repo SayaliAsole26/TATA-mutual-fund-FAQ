@@ -17,6 +17,9 @@ def test_health_endpoint() -> None:
     body = response.json()
     assert "status" in body
     assert "index" in body
+    assert "llm" in body
+    assert body["llm"]["provider"] == "groq"
+    assert "configured" in body["llm"]
 
 
 def test_schemes_endpoint() -> None:

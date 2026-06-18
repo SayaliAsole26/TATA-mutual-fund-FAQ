@@ -12,11 +12,17 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import chat, health, ingest, schemes
+from app.api.health import build_health_payload
 from app.ingestion.embed_index import stats
 from config.settings import BACKEND_ROOT, get_settings
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
+
+if not settings.groq_api_key.strip():
+    logger.warning(
+        "GROQ_API_KEY is not set — set it in Railway variables for LLM-generated answers"
+    )
 
 _ingest_lock = threading.Lock()
 _ingest_started = False
@@ -88,15 +94,14 @@ app.include_router(ingest.router, prefix="/api", tags=["ingest"])
 
 @app.get("/")
 def root() -> dict:
-    index = stats()
-    status = "ok" if index.get("status") == "ok" else "degraded"
-    payload: dict = {
-        "service": "mutual-fund-faq-assistant",
-        "status": status,
-        "index": index,
-        "docs": "/docs",
-        "health": "/api/health",
-    }
-    if settings.auto_ingest_on_startup and index.get("status") != "ok" and _ingest_started:
+    payload = build_health_payload()
+    payload.update(
+        {
+            "service": "mutual-fund-faq-assistant",
+            "docs": "/docs",
+            "health": "/api/health",
+        }
+    )
+    if settings.auto_ingest_on_startup and payload["index"].get("status") != "ok" and _ingest_started:
         payload["ingest"] = "running"
     return payload

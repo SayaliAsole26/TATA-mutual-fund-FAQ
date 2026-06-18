@@ -19,12 +19,16 @@ export default function App() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [apiStatus, setApiStatus] = useState<
-    "checking" | "ok" | "unreachable" | "no_index"
+    "checking" | "ok" | "unreachable" | "no_index" | "no_groq"
   >("checking");
 
   useEffect(() => {
     getHealth()
       .then((h) => {
+        if (h.llm && !h.llm.configured) {
+          setApiStatus("no_groq");
+          return;
+        }
         if (h.status === "ok") {
           setApiStatus("ok");
           return;
@@ -118,6 +122,16 @@ export default function App() {
                 </code>
               </>
             )}
+          </div>
+        )}
+
+        {apiStatus === "no_groq" && (
+          <div className="mx-md mt-20 rounded-lg border border-error-container bg-error-container/20 px-md py-sm text-sm text-on-error-container">
+            Groq LLM is not configured on the backend. Add{" "}
+            <code className="font-mono text-xs">GROQ_API_KEY</code> in{" "}
+            <strong>Railway</strong> (not Vercel), redeploy the API, then refresh.
+            The key in your local <code className="font-mono text-xs">.env</code>{" "}
+            is not copied to production automatically.
           </div>
         )}
 
