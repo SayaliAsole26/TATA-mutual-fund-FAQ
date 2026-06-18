@@ -23,3 +23,9 @@ def test_no_clarification_when_scheme_resolved() -> None:
     scheme = resolve_scheme("minimum SIP for Tata ELSS Fund Direct Growth")
     assert scheme is not None
     assert scheme_needs_clarification("minimum SIP", scheme) is False
+
+
+def test_resolve_arbitage_typo() -> None:
+    scheme = resolve_scheme("expense ratio for Tata Arbitage Fund")
+    assert scheme is not None
+    assert scheme.scheme_id == "tata-arbitrage-fund-direct-growth"

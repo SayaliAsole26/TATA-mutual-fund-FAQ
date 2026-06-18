@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import difflib
 import re
 
 from app.core.corpus_registry import SchemeEntry, load_corpus_registry
@@ -17,10 +18,12 @@ SCHEME_ALIASES: dict[str, str] = {
     "large cap": "tata-large-cap-fund-direct-growth",
     "mid cap": "tata-mid-cap-direct-plan-growth",
     "flexi cap": "tata-flexi-cap-fund-direct-growth",
+    "flexi cp": "tata-flexi-cap-fund-direct-growth",
     "multicap": "tata-multicap-fund-direct-growth",
     "multi cap": "tata-multicap-fund-direct-growth",
     "floater": "tata-floater-fund-direct-growth",
     "arbitrage": "tata-arbitrage-fund-direct-growth",
+    "arbitage": "tata-arbitrage-fund-direct-growth",
     "ethical": "tata-ethical-fund-direct-growth",
     "ultra short": "tata-ultra-short-term-fund-direct-growth",
     "ultra short term": "tata-ultra-short-term-fund-direct-growth",
@@ -30,6 +33,24 @@ SCHEME_ALIASES: dict[str, str] = {
     "sensex": "tata-bse-sensex-index-direct",
     "bse sensex": "tata-bse-sensex-index-direct",
 }
+
+
+def _fuzzy_name_match(lowered: str, schemes: list[SchemeEntry]) -> SchemeEntry | None:
+    """Tolerate minor spelling mistakes when user mentions Tata."""
+    if "tata" not in lowered:
+        return None
+    names = [s.scheme_name.lower() for s in schemes]
+    matches = difflib.get_close_matches(lowered, names, n=1, cutoff=0.55)
+    if not matches:
+        # Try matching substrings of message to scheme names
+        for scheme in schemes:
+            name = scheme.scheme_name.lower()
+            ratio = difflib.SequenceMatcher(None, name, lowered).ratio()
+            if ratio >= 0.72:
+                return scheme
+        return None
+    matched = matches[0]
+    return next(s for s in schemes if s.scheme_name.lower() == matched)
 
 
 def resolve_scheme(message: str) -> SchemeEntry | None:
@@ -66,6 +87,10 @@ def resolve_scheme(message: str) -> SchemeEntry | None:
         name_hits.sort(key=lambda item: item[0], reverse=True)
         return name_hits[0][1]
 
+    fuzzy = _fuzzy_name_match(lowered, schemes)
+    if fuzzy:
+        return fuzzy
+
     return None
 
 
@@ -85,6 +110,8 @@ def scheme_needs_clarification(message: str, scheme: SchemeEntry | None) -> bool
         "benchmark",
         "fund manager",
         "who manages",
+        "fund management",
+        "managed by",
         "lock-in",
         "lock in",
         "nav",

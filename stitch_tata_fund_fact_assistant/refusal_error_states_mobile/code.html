@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mutual Fund FAQ Assistant - Status</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0e1513;
+            color: #dde4e1;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom scrollbar for dark mode */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0e1513;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2f3634;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-container": "#6c2106",
+                      "surface-container-lowest": "#090f0e",
+                      "on-secondary-fixed": "#2a1700",
+                      "on-secondary-container": "#5b3800",
+                      "tertiary": "#ffb59e",
+                      "on-tertiary": "#5e1800",
+                      "surface-container": "#1a211f",
+                      "outline": "#859490",
+                      "on-tertiary-fixed-variant": "#7c2d11",
+                      "on-error": "#690005",
+                      "primary-container": "#14b8a6",
+                      "error": "#ffb4ab",
+                      "tertiary-container": "#f38764",
+                      "surface-variant": "#2f3634",
+                      "on-error-container": "#ffdad6",
+                      "error-container": "#93000a",
+                      "surface-tint": "#4fdbc8",
+                      "primary": "#4fdbc8",
+                      "on-secondary-fixed-variant": "#653e00",
+                      "on-surface": "#dde4e1",
+                      "tertiary-fixed": "#ffdbd0",
+                      "surface-bright": "#343b39",
+                      "secondary-container": "#ee9800",
+                      "outline-variant": "#3c4947",
+                      "on-background": "#dde4e1",
+                      "on-secondary": "#472a00",
+                      "on-primary-fixed-variant": "#005048",
+                      "surface-container-highest": "#2f3634",
+                      "secondary-fixed-dim": "#ffb95f",
+                      "surface-container-high": "#252b2a",
+                      "inverse-primary": "#006b5f",
+                      "inverse-surface": "#dde4e1",
+                      "tertiary-fixed-dim": "#ffb59e",
+                      "surface-container-low": "#161d1b",
+                      "on-surface-variant": "#bbcac6",
+                      "secondary": "#ffb95f",
+                      "primary-fixed": "#71f8e4",
+                      "on-primary-fixed": "#00201c",
+                      "primary-fixed-dim": "#4fdbc8",
+                      "on-tertiary-fixed": "#3a0b00",
+                      "on-primary-container": "#00423b",
+                      "secondary-fixed": "#ffddb8",
+                      "surface": "#0e1513",
+                      "inverse-on-surface": "#2b3230",
+                      "on-primary": "#003731",
+                      "background": "#0e1513",
+                      "surface-dim": "#0e1513"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "md": "16px",
+                      "base": "4px",
+                      "xs": "4px",
+                      "lg": "24px",
+                      "gutter": "16px",
+                      "container-max": "800px",
+                      "xl": "40px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Geist"],
+                      "body-md": ["Geist"],
+                      "headline-lg-mobile": ["Geist"],
+                      "label-caps": ["JetBrains Mono"],
+                      "label-md": ["JetBrains Mono"],
+                      "body-sm": ["Geist"],
+                      "headline-xl": ["Geist"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-caps": ["10px", {"lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center px-md h-16 max-w-container-max mx-auto bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-primary" data-icon="account_balance">account_balance</span>
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile font-bold text-on-surface dark:text-on-surface">Mutual Fund FAQ Assistant</h1>
+</div>
+<div class="ml-auto">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-on-surface-variant" data-icon="circle" style="font-variation-settings: 'FILL' 1;">circle</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-32 px-md max-w-container-max mx-auto w-full space-y-xl">
+<!-- User Bubble -->
+<div class="flex flex-col items-end space-y-base">
+<div class="bg-surface-variant rounded-xl rounded-tr-none px-md py-sm max-w-[85%] border border-outline-variant">
+<p class="font-body-md text-body-md text-on-surface">Should I buy TATA Digital India Fund?</p>
+</div>
+<span class="text-label-md font-label-md text-on-surface-variant">Just now</span>
+</div>
+<!-- Assistant Refusal Card -->
+<div class="relative bg-surface-container border border-outline-variant rounded-lg overflow-hidden transition-all duration-300">
+<!-- Amber left border -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div>
+<div class="p-md pl-lg">
+<div class="flex items-center gap-sm mb-sm">
+<span class="material-symbols-outlined text-secondary-container" data-icon="warning">warning</span>
+<span class="font-label-caps text-label-caps text-secondary-container">Information only</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-lg">
+                    I can only answer factual questions about TATA mutual fund schemes. I cannot provide investment advice or compare funds.
+                </p>
+<div class="flex flex-wrap gap-sm">
+<a class="inline-flex items-center gap-xs text-primary font-label-md text-label-md hover:underline" href="#">
+                        Visit AMFI Knowledge Center
+                        <span class="material-symbols-outlined text-[14px]" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Inline Error Alert -->
+<div class="bg-error-container/20 border border-error-container rounded-lg p-md flex items-start gap-md animate-pulse">
+<span class="material-symbols-outlined text-error" data-icon="report">report</span>
+<div class="flex flex-col">
+<p class="font-label-md text-label-md font-bold text-error">System Error</p>
+<p class="font-body-sm text-body-sm text-on-error-container">Too many requests. Please wait a moment.</p>
+</div>
+</div>
+<!-- Decorative Spacer for visual balance -->
+<div class="h-4"></div>
+</main>
+<!-- Sticky Bottom Input Section -->
+<section class="fixed bottom-0 left-0 w-full bg-surface-container-low border-t border-outline-variant p-md z-40">
+<div class="max-w-container-max mx-auto relative">
+<!-- Chip for context -->
+<div class="flex gap-xs mb-sm overflow-x-auto no-scrollbar pb-xs">
+<div class="bg-surface-variant border border-outline-variant rounded-full px-sm py-xs flex items-center gap-xs shrink-0 cursor-pointer hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant" data-icon="history">history</span>
+<span class="font-label-md text-label-md text-on-surface-variant">View Scheme History</span>
+</div>
+<div class="bg-surface-variant border border-outline-variant rounded-full px-sm py-xs flex items-center gap-xs shrink-0 cursor-pointer hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant" data-icon="info">info</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Expense Ratios</span>
+</div>
+</div>
+<div class="flex items-center gap-sm bg-surface-container-high rounded-full border border-outline-variant p-xs focus-within:border-primary transition-all duration-200">
+<button class="p-sm text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<input class="bg-transparent border-none focus:ring-0 flex-grow font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 px-xs" placeholder="Ask about fund details..." type="text"/>
+<button class="bg-primary text-on-primary p-sm rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Footer (Internal App Navigation hidden for focus) -->
+<footer class="w-full py-base px-md text-center bg-secondary-container dark:bg-secondary-container hidden">
+<p class="font-label-md text-label-md text-on-secondary-container">Facts-only. No investment advice.</p>
+</footer>
+<!-- Background Atmospheric Effect -->
+<div class="fixed inset-0 -z-10 opacity-20 pointer-events-none overflow-hidden">
+
+</div>
+<script>
+        // Micro-interaction for input focus
+        const inputField = document.querySelector('input');
+        const inputContainer = inputField?.parentElement;
+        
+        inputField?.addEventListener('focus', () => {
+            inputContainer?.classList.add('ring-2', 'ring-primary/20');
+        });
+        
+        inputField?.addEventListener('blur', () => {
+            inputContainer?.classList.remove('ring-2', 'ring-primary/20');
+        });
+
+        // Auto-scroll simulation on load
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    </script>
+</body></html>

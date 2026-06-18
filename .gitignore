@@ -26,6 +26,12 @@ data/processed/*
 .vscode/
 *.swp
 
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+*.tsbuildinfo
+
 # OS
 .DS_Store
 Thumbs.db

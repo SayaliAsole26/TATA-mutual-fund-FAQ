@@ -722,44 +722,46 @@ curl http://localhost:8000/api/schemes
 
 **Depends on:** Phase 2c (API running on port 8000) and Phase 3 (guardrails)
 
+**Status:** Complete (Stitch Obsidian theme, multi-chat UI, bugsfile fixes)
+
 ### 4.1 Tasks
 
 #### 4.1.1 Frontend scaffold (`frontend/`)
 
-- [ ] Initialize `frontend/` (Vite + React recommended for Stitch export)
-- [ ] `frontend/.env.example` — `VITE_API_BASE_URL=http://localhost:8000`
-- [ ] `frontend/src/api/client.ts` — `postChat()`, `getSchemes()`, `getHealth()`
-- [ ] Configure CORS on backend (`app/main.py`) for frontend dev origin
+- [x] Initialize `frontend/` (Vite + React recommended for Stitch export)
+- [x] `frontend/.env.example` — `VITE_API_BASE_URL=http://localhost:8000`
+- [x] `frontend/src/api/client.ts` — `postChat()`, `getSchemes()`, `getHealth()`
+- [x] Configure CORS on backend (`app/main.py`) for frontend dev origin
 
 #### 4.1.2 Stitch UI design & build
 
-- [ ] Create the chat layout in **Stitch** (welcome screen, disclaimer, example chips, message thread, input bar)
-- [ ] Export / implement Stitch design into `frontend/src/`
-- [ ] Header: **Mutual Fund FAQ Assistant**
-- [ ] Persistent disclaimer banner:
+- [x] Create the chat layout in **Stitch** (welcome screen, disclaimer, example chips, message thread, input bar)
+- [x] Export / implement Stitch design into `frontend/src/`
+- [x] Header: **Mutual Fund FAQ Assistant**
+- [x] Persistent disclaimer banner:
   > Facts-only. No investment advice.
-- [ ] Welcome message explaining scope (15 Tata schemes on Groww)
-- [ ] Three clickable example questions:
+- [x] Welcome message explaining scope (15 Tata schemes on Groww)
+- [x] Three clickable example questions:
   1. What is the minimum SIP for Tata ELSS?
   2. What is the exit load on Tata Silver ETF FoF?
   3. Who manages the Tata Flexi Cap Fund?
-- [ ] Chat message area (user + assistant bubbles)
-- [ ] Input field + send button
-- [ ] Render `answer`, `source_url`, and footer from API JSON response
+- [x] Chat message area (user + assistant bubbles)
+- [x] Input field + send button
+- [x] Render `answer`, `source_url`, and footer from API JSON response
 
 #### 4.1.3 API integration
 
-- [ ] `POST /api/chat` on submit → display `type: answer` or `type: clarification`
-- [ ] Loading state while waiting
-- [ ] Error handling for network/API failures (`GET /api/health` on startup optional)
-- [ ] `GET /api/schemes` for scheme name autocomplete hints (optional)
+- [x] `POST /api/chat` on submit → display `type: answer` or `type: clarification`
+- [x] Loading state while waiting
+- [x] Error handling for network/API failures (`GET /api/health` on startup optional)
+- [x] `GET /api/schemes` for scheme name autocomplete hints (optional)
 
 #### 4.1.4 UX & compliance
 
-- [ ] No login, no PII form fields
-- [ ] Sanitize rendered HTML / safe text rendering only
-- [ ] Mobile-friendly minimal layout
-- [ ] Example chips populate input on click
+- [x] No login, no PII form fields
+- [x] Sanitize rendered HTML / safe text rendering only
+- [x] Mobile-friendly minimal layout
+- [x] Example chips populate input on click
 
 #### 4.1.5 Frontend ↔ backend map
 
@@ -781,13 +783,13 @@ curl http://localhost:8000/api/schemes
 
 ### 4.3 Acceptance Criteria
 
-- [ ] Disclaimer visible on every screen without scrolling (banner or subtitle)
-- [ ] Welcome message shown on first load
-- [ ] All three example questions are clickable and send queries
-- [ ] Factual answers display citation link and footer date
-- [ ] Refusal messages display educational link
-- [ ] No user data persisted in browser beyond session chat (optional: no persistence at all)
-- [ ] UI works against local API on `localhost`
+- [x] Disclaimer visible on every screen without scrolling (banner or subtitle)
+- [x] Welcome message shown on first load
+- [x] All three example questions are clickable and send queries
+- [x] Factual answers display citation link and footer date
+- [x] Refusal messages display educational link
+- [x] No user data persisted in browser beyond session chat (optional: no persistence at all)
+- [x] UI works against local API on `localhost`
 
 ---
 

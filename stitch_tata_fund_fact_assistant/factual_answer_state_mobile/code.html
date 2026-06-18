@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mutual Fund FAQ Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#6c2106",
+                    "surface-container-lowest": "#090f0e",
+                    "on-secondary-fixed": "#2a1700",
+                    "on-secondary-container": "#5b3800",
+                    "tertiary": "#ffb59e",
+                    "on-tertiary": "#5e1800",
+                    "surface-container": "#1a211f",
+                    "outline": "#859490",
+                    "on-tertiary-fixed-variant": "#7c2d11",
+                    "on-error": "#690005",
+                    "primary-container": "#14b8a6",
+                    "error": "#ffb4ab",
+                    "tertiary-container": "#f38764",
+                    "surface-variant": "#2f3634",
+                    "on-error-container": "#ffdad6",
+                    "error-container": "#93000a",
+                    "surface-tint": "#4fdbc8",
+                    "primary": "#4fdbc8",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "on-surface": "#dde4e1",
+                    "tertiary-fixed": "#ffdbd0",
+                    "surface-bright": "#343b39",
+                    "secondary-container": "#ee9800",
+                    "outline-variant": "#3c4947",
+                    "on-background": "#dde4e1",
+                    "on-secondary": "#472a00",
+                    "on-primary-fixed-variant": "#005048",
+                    "surface-container-highest": "#2f3634",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "surface-container-high": "#252b2a",
+                    "inverse-primary": "#006b5f",
+                    "inverse-surface": "#dde4e1",
+                    "tertiary-fixed-dim": "#ffb59e",
+                    "surface-container-low": "#161d1b",
+                    "on-surface-variant": "#bbcac6",
+                    "secondary": "#ffb95f",
+                    "primary-fixed": "#71f8e4",
+                    "on-primary-fixed": "#00201c",
+                    "primary-fixed-dim": "#4fdbc8",
+                    "on-tertiary-fixed": "#3a0b00",
+                    "on-primary-container": "#00423b",
+                    "secondary-fixed": "#ffddb8",
+                    "surface": "#0e1513",
+                    "inverse-on-surface": "#2b3230",
+                    "on-primary": "#003731",
+                    "background": "#0e1513",
+                    "surface-dim": "#0e1513"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "base": "4px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "gutter": "16px",
+                    "container-max": "800px",
+                    "xl": "40px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Geist"],
+                    "body-md": ["Geist"],
+                    "headline-lg-mobile": ["Geist"],
+                    "label-caps": ["JetBrains Mono"],
+                    "label-md": ["JetBrains Mono"],
+                    "body-sm": ["Geist"],
+                    "headline-xl": ["Geist"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-caps": ["10px", {"lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0e1513;
+            color: #dde4e1;
+            font-family: 'Geist', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #0e1513;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #2f3634;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center px-md h-16 max-w-container-max mx-auto bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-primary" data-icon="account_balance">account_balance</span>
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile font-bold text-on-surface dark:text-on-surface">Mutual Fund FAQ Assistant</h1>
+</div>
+<div class="ml-auto">
+<button class="p-sm rounded-full hover:bg-surface-variant transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-on-surface-variant" data-icon="circle">circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-20 pb-24 px-md max-w-container-max mx-auto w-full">
+<!-- Conversation Feed -->
+<div class="space-y-xl">
+<!-- User Query Bubble -->
+<div class="flex justify-end animate-in fade-in slide-in-from-right-4 duration-500">
+<div class="max-w-[85%] bg-surface-variant border-l-4 border-white p-md rounded-lg shadow-sm">
+<p class="font-body-md text-body-md text-on-surface">
+                        What is the expense ratio of TATA Arbitrage Fund?
+                    </p>
+</div>
+</div>
+<!-- Assistant Answer Card -->
+<div class="flex justify-start animate-in fade-in slide-in-from-left-4 duration-700 delay-200">
+<div class="w-full bg-surface-container-high border-l-4 border-primary-container p-md rounded-lg shadow-md relative overflow-hidden">
+<!-- Subtle atmospheric texture -->
+<div class="absolute inset-0 opacity-5 pointer-events-none">
+
+</div>
+<div class="relative z-10 flex flex-col gap-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-caps text-label-caps text-primary uppercase">Verified Fact</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                            The expense ratio of <span class="font-bold text-primary">TATA Arbitrage Fund (Direct Growth)</span> is <span class="text-primary font-bold">0.29%</span> as per the published scheme page.
+                        </p>
+<!-- Action Items -->
+<div class="mt-base flex flex-wrap items-center gap-md">
+<a class="flex items-center gap-xs text-primary font-label-md text-label-md hover:underline transition-opacity" href="#">
+<span class="material-symbols-outlined text-[16px]" data-icon="link">link</span>
+                                View source
+                                <span class="material-symbols-outlined text-[14px]" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+<!-- Card Footer -->
+<div class="mt-sm pt-sm border-t border-outline-variant flex justify-between items-center opacity-60">
+<span class="font-label-md text-label-md">Last updated: 16 Jun 2026</span>
+<div class="flex gap-xs">
+<button class="p-xs hover:bg-surface-variant rounded-sm transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="thumb_up">thumb_up</span>
+</button>
+<button class="p-xs hover:bg-surface-variant rounded-sm transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="thumb_down">thumb_down</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Suggested Chips -->
+<div class="flex flex-wrap gap-sm justify-center py-md">
+<button class="px-md py-sm bg-surface-container border border-outline-variant rounded-full font-label-md text-label-md text-on-surface-variant hover:border-primary hover:text-primary transition-all active:scale-95">
+                    Compare with SBI Arbitrage
+                </button>
+<button class="px-md py-sm bg-surface-container border border-outline-variant rounded-full font-label-md text-label-md text-on-surface-variant hover:border-primary hover:text-primary transition-all active:scale-95">
+                    Exit load details
+                </button>
+<button class="px-md py-sm bg-surface-container border border-outline-variant rounded-full font-label-md text-label-md text-on-surface-variant hover:border-primary hover:text-primary transition-all active:scale-95">
+                    Recent performance
+                </button>
+</div>
+</div>
+</main>
+<!-- Global Disclaimer (Sticky above input) -->
+<div class="fixed bottom-24 left-0 w-full px-md z-40 max-w-container-max mx-auto left-1/2 -translate-x-1/2">
+<div class="bg-tertiary-container/10 border-l-4 border-tertiary-container p-sm rounded-r-lg backdrop-blur-md">
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-tertiary-container text-[18px]" data-icon="warning">warning</span>
+<p class="font-label-md text-label-md text-on-surface opacity-90">
+                    Mutual fund investments are subject to market risks. Read all scheme related documents carefully.
+                </p>
+</div>
+</div>
+</div>
+<!-- Input Bar -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-container-low border-t border-outline-variant p-md z-50">
+<div class="max-w-container-max mx-auto relative flex items-center gap-sm">
+<div class="relative flex-grow">
+<input class="w-full bg-surface-container-highest border border-outline-variant rounded-full px-lg py-sm font-body-sm text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-on-surface placeholder:opacity-50" placeholder="Ask another question..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-on-primary p-xs rounded-full shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+<button class="bg-surface-container-high border border-outline-variant p-sm rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="mic">mic</span>
+</button>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full py-base px-md text-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container dark:text-on-secondary-container mt-auto hidden">
+<p class="font-label-md text-label-md opacity-80">Facts-only. No investment advice.</p>
+<div class="flex justify-center gap-md mt-xs">
+<a class="opacity-80 hover:opacity-100 font-label-md text-label-md underline font-bold" href="#">Terms of Service</a>
+<a class="opacity-80 hover:opacity-100 font-label-md text-label-md" href="#">Privacy Policy</a>
+<a class="opacity-80 hover:opacity-100 font-label-md text-label-md" href="#">Data Sources</a>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for chips
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.classList.add('scale-95');
+                setTimeout(() => this.classList.remove('scale-95'), 100);
+            });
+        });
+    </script>
+</body></html>
