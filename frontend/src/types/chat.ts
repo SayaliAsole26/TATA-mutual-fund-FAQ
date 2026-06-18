@@ -83,4 +83,12 @@ export interface HealthResponse {
     model: string;
   };
   issues?: string[];
+  ingest?: {
+    status: string;
+    mode?: string;
+    started_at?: string;
+    finished_at?: string;
+    exit_code?: number;
+    error?: string;
+  };
 }

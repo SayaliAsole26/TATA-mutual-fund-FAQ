@@ -1,0 +1,163 @@
+{
+  "scheme_id": "tata-elss-fund-direct-growth",
+  "chunk_count": 13,
+  "generated_at": "2026-06-18T18:25:00.170994+00:00",
+  "chunks": [
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__expense_ratio__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "expense_ratio",
+      "content": "Expense ratio: 1.17%",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "processed",
+      "section_label": "Expense ratio"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__exit_load__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "exit_load",
+      "content": "Exit load: Nil",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "cleaned_fallback",
+      "section_label": "Exit load"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__min_sip__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "min_sip",
+      "content": "Minimum SIP amount: ₹500",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "processed",
+      "section_label": "Minimum SIP"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__min_lumpsum__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "min_lumpsum",
+      "content": "Minimum first investment (lumpsum): ₹500",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "processed",
+      "section_label": "Minimum lumpsum"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__riskometer__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "riskometer",
+      "content": "Riskometer: Very High Risk",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "processed",
+      "section_label": "Riskometer"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__benchmark__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "benchmark",
+      "content": "Benchmark: NIFTY 500 Total Return Index",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "processed",
+      "section_label": "Benchmark"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__fund_managers__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "fund_managers",
+      "content": "Fund manager(s): Sailesh Jain (Dec 2021 - Present)",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "cleaned_fallback",
+      "section_label": "Fund managers"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__tax__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "tax",
+      "content": "Tax implication: If you redeem within one year, returns are taxed at 20%. If you redeem after one year, returns exceeding Rs 1.25 lakh in a financial year are taxed at 12.5%.",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "cleaned_fallback",
+      "section_label": "Tax implication"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__stamp_duty__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "stamp_duty",
+      "content": "Stamp duty: 0.005% (from July 1st, 2020)",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "processed",
+      "section_label": "Stamp duty"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__elss_lock_in__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "elss_lock_in",
+      "content": "ELSS lock-in period: 3Y Lock-in",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "processed",
+      "section_label": "ELSS lock-in"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__investment_objective__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "investment_objective",
+      "content": "Investment objective: The scheme seeks long-term capital growth. Investments in equity would be at least 80 per cent of the corpus, while allocation to debt and money market instruments can go up to 20 per cent.",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "cleaned_fallback",
+      "section_label": "Investment objective"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__nav__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "nav",
+      "content": "Latest NAV: ₹53.20.",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "processed",
+      "section_label": "NAV"
+    },
+    {
+      "chunk_id": "tata-elss-fund-direct-growth__aum__0",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "section": "aum",
+      "content": "Fund size (AUM): ₹4,515.95 Cr",
+      "extracted_at": "2026-06-18T18:09:51.771463+00:00",
+      "chunk_index": 0,
+      "chunk_source": "processed",
+      "section_label": "AUM"
+    }
+  ]
+}

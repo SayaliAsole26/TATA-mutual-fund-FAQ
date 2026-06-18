@@ -237,7 +237,7 @@ def index_scheme(
 def rebuild_index(
     *,
     settings: Settings | None = None,
-    batch_size: int = DEFAULT_BATCH_SIZE,
+    batch_size: int | None = None,
     embed_fn: EmbedFn | None = None,
 ) -> dict[str, Any]:
     """
@@ -248,6 +248,7 @@ def rebuild_index(
     with directory swapping while Chroma holds SQLite handles.
     """
     settings = settings or get_settings()
+    batch_size = batch_size or settings.embed_batch_size
     chunks = load_all_chunk_records(settings)
     if not chunks:
         raise FileNotFoundError(

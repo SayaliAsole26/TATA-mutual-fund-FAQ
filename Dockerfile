@@ -17,7 +17,8 @@ RUN pip install --no-cache-dir --upgrade pip \
 COPY backend /app/backend
 COPY data/corpus_registry.json /app/data/corpus_registry.json
 COPY data/processed/schemes.json /app/data/processed/schemes.json
-RUN mkdir -p /app/data/index /app/data/raw /app/data/processed
+COPY data/processed/ /app/data/processed/
+RUN mkdir -p /app/data/index /app/data/raw
 
 WORKDIR /app/backend
 
@@ -26,7 +27,9 @@ ENV PYTHONUNBUFFERED=1 \
     TRANSFORMERS_CACHE=/app/.cache/huggingface \
     DATA_DIR=/app/data \
     PREFER_LOCAL_SNAPSHOTS=false \
-    AUTO_INGEST_ON_STARTUP=true
+    AUTO_INGEST_ON_STARTUP=true \
+    EMBEDDING_MODEL_LARGE=BAAI/bge-small-en-v1.5 \
+    EMBED_BATCH_SIZE=8
 
 EXPOSE 8000
 

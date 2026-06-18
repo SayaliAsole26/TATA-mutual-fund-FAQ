@@ -30,6 +30,8 @@ class Settings(BaseSettings):
     ingest_api_key: str = Field(default="", alias="INGEST_API_KEY")
     auto_ingest_on_startup: bool = Field(default=False, alias="AUTO_INGEST_ON_STARTUP")
 
+    embed_batch_size: int = Field(default=16, alias="EMBED_BATCH_SIZE")
+
     # Retrieval
     retrieval_max_distance: float = Field(default=0.55, alias="RETRIEVAL_MAX_DISTANCE")
 

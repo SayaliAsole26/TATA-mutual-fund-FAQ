@@ -7,6 +7,11 @@ from fastapi import APIRouter
 from app.ingestion.embed_index import stats
 from config.settings import get_settings
 
+try:
+    from app.core import bootstrap_ingest
+except ImportError:  # pragma: no cover
+    bootstrap_ingest = None
+
 router = APIRouter()
 
 
@@ -22,7 +27,7 @@ def build_health_payload() -> dict:
     if not groq_configured:
         issues.append("groq_api_key")
 
-    return {
+    payload = {
         "status": "ok" if not issues else "degraded",
         "index": index,
         "llm": {
@@ -32,6 +37,11 @@ def build_health_payload() -> dict:
         },
         "issues": issues,
     }
+    if bootstrap_ingest is not None and settings.auto_ingest_on_startup:
+        ingest_state = bootstrap_ingest.snapshot()
+        if ingest_state["status"] != "idle":
+            payload["ingest"] = ingest_state
+    return payload
 
 
 @router.get("/health")

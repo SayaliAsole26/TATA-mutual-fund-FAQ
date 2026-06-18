@@ -4,7 +4,7 @@ import Chat from "./components/Chat";
 import ChatSidebar from "./components/ChatSidebar";
 import Header from "./components/Header";
 import { useChatSessions } from "./hooks/useChatSessions";
-import type { ChatMessage } from "./types/chat";
+import type { ChatMessage, HealthResponse } from "./types/chat";
 
 export default function App() {
   const {
@@ -21,10 +21,12 @@ export default function App() {
   const [apiStatus, setApiStatus] = useState<
     "checking" | "ok" | "unreachable" | "no_index" | "no_groq"
   >("checking");
+  const [ingestInfo, setIngestInfo] = useState<HealthResponse["ingest"]>();
 
   useEffect(() => {
     getHealth()
       .then((h) => {
+        setIngestInfo(h.ingest);
         if (h.llm && !h.llm.configured) {
           setApiStatus("no_groq");
           return;
@@ -137,10 +139,30 @@ export default function App() {
 
         {apiStatus === "no_index" && (
           <div className="mx-md mt-20 rounded-lg border border-secondary-container bg-secondary-container/20 px-md py-sm text-sm text-on-surface">
-            Backend is online but the corpus index is missing. On Railway, run{" "}
-            <code className="font-mono text-xs">POST /api/ingest</code> with your{" "}
-            <code className="font-mono text-xs">INGEST_API_KEY</code>, or attach
-            the Chroma artifact from GitHub Actions.
+            {ingestInfo?.status === "running" ? (
+              <>
+                Building the search index on Railway (
+                {ingestInfo.mode === "embed_only"
+                  ? "embedding bundled corpus"
+                  : "fetching Groww pages"}
+                ) — usually 3–10 minutes. Refresh this page when{" "}
+                <code className="font-mono text-xs">/api/health</code> shows{" "}
+                <code className="font-mono text-xs">status: ok</code>.
+              </>
+            ) : ingestInfo?.status === "failed" ? (
+              <>
+                Index build failed on Railway (exit {ingestInfo.exit_code}). Check
+                Railway deploy logs, redeploy, or call{" "}
+                <code className="font-mono text-xs">POST /api/ingest</code> with{" "}
+                <code className="font-mono text-xs">INGEST_API_KEY</code>.
+              </>
+            ) : (
+              <>
+                Backend is online but the corpus index is missing. Wait for the
+                automatic index build after redeploy, or trigger{" "}
+                <code className="font-mono text-xs">POST /api/ingest</code>.
+              </>
+            )}
           </div>
         )}
 

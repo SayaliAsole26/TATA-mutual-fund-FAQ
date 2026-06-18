@@ -46,8 +46,28 @@ def ingest_scheme(scheme: SchemeEntry, *, force_live: bool = False) -> None:
     )
 
 
-def ingest_corpus(*, force_live: bool = False, skip_embed: bool = False) -> dict:
+def ingest_corpus(
+    *,
+    force_live: bool = False,
+    skip_embed: bool = False,
+    embed_only: bool = False,
+) -> dict:
     """Run the full Phase 1 pipeline for all 15 schemes."""
+    if embed_only:
+        started = time.monotonic()
+        logger.info("Rebuilding vector index from bundled chunk files...")
+        embed_result = rebuild_index()
+        manifest_path = export_index_manifest()
+        result = {
+            "status": "ok",
+            "mode": "embed_only",
+            "index": embed_result,
+            "manifest": str(manifest_path),
+            "index_stats": stats(),
+            "duration_seconds": round(time.monotonic() - started, 1),
+        }
+        return result
+
     started = time.monotonic()
     schemes = load_corpus_registry()
     reset_schemes_metadata()
@@ -113,9 +133,18 @@ def main() -> None:
         action="store_true",
         help="Only fetch/parse/chunk; do not rebuild vector index",
     )
+    parser.add_argument(
+        "--embed-only",
+        action="store_true",
+        help="Only rebuild vector index from existing data/processed/*_chunks.json",
+    )
     args = parser.parse_args()
 
-    result = ingest_corpus(force_live=args.force_live, skip_embed=args.skip_embed)
+    result = ingest_corpus(
+        force_live=args.force_live,
+        skip_embed=args.skip_embed,
+        embed_only=args.embed_only,
+    )
     print(json.dumps(result, indent=2))
 
     if result.get("status") != "ok":

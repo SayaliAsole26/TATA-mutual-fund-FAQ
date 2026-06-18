@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import chat, health, ingest, schemes
 from app.api.health import build_health_payload
+from app.core import bootstrap_ingest
 from app.ingestion.embed_index import stats
 from config.settings import BACKEND_ROOT, get_settings
 
@@ -25,39 +26,62 @@ if not settings.groq_api_key.strip():
     )
 
 _ingest_lock = threading.Lock()
-_ingest_started = False
+
+
+def _run_logged_ingest(args: list[str]) -> tuple[int, str]:
+    """Run ingest script and stream stdout/stderr into container logs."""
+    script = BACKEND_ROOT / "scripts" / "ingest_corpus.py"
+    process = subprocess.Popen(
+        [sys.executable, str(script), *args],
+        cwd=str(BACKEND_ROOT),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        bufsize=1,
+    )
+    tail: list[str] = []
+    assert process.stdout is not None
+    for line in process.stdout:
+        line = line.rstrip()
+        if line:
+            logger.info("[ingest] %s", line)
+            tail.append(line)
+            if len(tail) > 40:
+                tail.pop(0)
+    return process.wait(), "\n".join(tail)
 
 
 def _bootstrap_index_if_needed() -> None:
     """Build Chroma index in the background when the container has no vector store."""
-    global _ingest_started
-
     if not settings.auto_ingest_on_startup:
         return
 
     if stats(settings).get("status") == "ok":
         return
 
+    chunk_files = list(settings.processed_dir.glob("*_chunks.json"))
+    if chunk_files:
+        mode = "embed_only"
+        ingest_args = ["--embed-only"]
+    else:
+        mode = "force_live"
+        ingest_args = ["--force-live"]
+
     with _ingest_lock:
-        if _ingest_started:
+        if not bootstrap_ingest.mark_running(mode):
             return
-        _ingest_started = True
 
-    script = BACKEND_ROOT / "scripts" / "ingest_corpus.py"
-    if not script.is_file():
-        logger.error("Bootstrap ingest skipped: %s not found", script)
-        return
-
-    logger.info("Vector index empty — starting background corpus ingest (15 schemes + BGE embed)...")
-    completed = subprocess.run(
-        [sys.executable, str(script), "--force-live"],
-        cwd=str(BACKEND_ROOT),
-        check=False,
+    logger.info(
+        "Vector index empty — starting background ingest (%s, %d chunk file(s))...",
+        mode,
+        len(chunk_files),
     )
-    if completed.returncode == 0:
+    exit_code, log_tail = _run_logged_ingest(ingest_args)
+    bootstrap_ingest.mark_finished(exit_code, stderr_tail=log_tail)
+    if exit_code == 0:
         logger.info("Background ingest finished: %s", stats(settings))
     else:
-        logger.error("Background ingest failed (exit %s)", completed.returncode)
+        logger.error("Background ingest failed (exit %s)", exit_code)
 
 
 @asynccontextmanager
@@ -102,6 +126,7 @@ def root() -> dict:
             "health": "/api/health",
         }
     )
-    if settings.auto_ingest_on_startup and payload["index"].get("status") != "ok" and _ingest_started:
-        payload["ingest"] = "running"
+    ingest_state = bootstrap_ingest.snapshot()
+    if settings.auto_ingest_on_startup and ingest_state["status"] != "idle":
+        payload["ingest"] = ingest_state
     return payload

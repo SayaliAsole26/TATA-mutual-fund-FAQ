@@ -20,6 +20,7 @@ data/raw/*
 data/processed/*
 !data/processed/.gitkeep
 !data/processed/schemes.json
+!data/processed/*_chunks.json
 
 # IDE
 .idea/
