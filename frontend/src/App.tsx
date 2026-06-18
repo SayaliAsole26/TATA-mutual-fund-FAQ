@@ -108,11 +108,22 @@ export default function App() {
                     {" "}
                     Check that{" "}
                     <code className="font-mono text-xs">
-                      {import.meta.env.VITE_API_BASE_URL}
+                      {import.meta.env.VITE_API_BASE_URL.startsWith("http://")
+                        ? import.meta.env.VITE_API_BASE_URL.replace(
+                            "http://",
+                            "https://",
+                          )
+                        : import.meta.env.VITE_API_BASE_URL}
                     </code>{" "}
-                    is running and that Railway{" "}
-                    <code className="font-mono text-xs">CORS_ORIGINS</code>{" "}
-                    includes this Vercel URL.
+                    is running (use <strong>https://</strong> on Vercel) and that
+                    Railway <code className="font-mono text-xs">CORS_ORIGINS</code>{" "}
+                    is{" "}
+                    <code className="font-mono text-xs">
+                      {typeof window !== "undefined"
+                        ? window.location.origin
+                        : "https://your-app.vercel.app"}
+                    </code>{" "}
+                    with no trailing slash.
                   </>
                 )}
               </>

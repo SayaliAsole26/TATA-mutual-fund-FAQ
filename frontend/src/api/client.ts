@@ -1,4 +1,15 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
+function normalizeApiBase(raw: string | undefined): string {
+  const trimmed = raw?.trim().replace(/\/$/, "") ?? "";
+  if (!trimmed) return "";
+
+  // Vercel is HTTPS — calling http:// Railway URLs is blocked as mixed content.
+  if (import.meta.env.PROD && trimmed.startsWith("http://")) {
+    return `https://${trimmed.slice("http://".length)}`;
+  }
+  return trimmed;
+}
+
+const API_BASE = normalizeApiBase(import.meta.env.VITE_API_BASE_URL);
 
 function apiUrl(path: string): string {
   return `${API_BASE}${path}`;
