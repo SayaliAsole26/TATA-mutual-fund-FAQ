@@ -28,12 +28,11 @@ ENV PYTHONUNBUFFERED=1 \
     DATA_DIR=/app/data \
     PREFER_LOCAL_SNAPSHOTS=false \
     AUTO_INGEST_ON_STARTUP=true \
-    EMBEDDING_MODEL_LARGE=BAAI/bge-small-en-v1.5 \
     EMBED_BATCH_SIZE=8
 
 # Bake the Chroma index into the image so Railway deploys start healthy.
-# Without this, every redeploy wipes /app/data/index and triggers a 3–10 min
-# background rebuild — health flips degraded/ok and the Vercel UI disables chat.
+# Uses default EMBEDDING_MODEL_LARGE (bge-large) — must match the model at runtime.
+# Do not set a different EMBEDDING_MODEL_LARGE on Railway without rebuilding the index.
 RUN python scripts/ingest_corpus.py --embed-only
 
 EXPOSE 8000

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { postChat } from "../api/client";
+import { friendlyApiError, postChat } from "../api/client";
 import type { ChatApiResponse, ChatMessage } from "../types/chat";
 import { formatLastUpdated, parseFormattedAnswer } from "../utils/parseAnswer";
 import ExampleChips from "./ExampleChips";
@@ -90,16 +90,12 @@ export default function Chat({ messages, onAppend, disabled = false }: ChatProps
         const res = await postChat(trimmed);
         onAppend(apiToAssistantMessage(res));
       } catch (err) {
-        const msg =
-          err instanceof Error
-            ? err.message
-            : "Could not reach the assistant. Please try again.";
+        const msg = friendlyApiError(err);
         setError(msg);
         onAppend({
           id: crypto.randomUUID(),
           role: "assistant",
-          content:
-            "I could not connect to the server right now. Please check that the API is running and try again.",
+          content: msg,
           responseType: "error",
           timestamp: Date.now(),
         });

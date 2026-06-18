@@ -56,3 +56,16 @@ def test_chat_answer_mock(mock_handle) -> None:
     body = response.json()
     assert body["type"] == "answer"
     assert "1.17%" in body["answer"]
+
+
+def test_cors_allows_vercel_preview_origin() -> None:
+    origin = "https://tata-mutual-fund-faq-git-main-sayaliasole26.vercel.app"
+    response = client.options(
+        "/api/chat",
+        headers={
+            "Origin": origin,
+            "Access-Control-Request-Method": "POST",
+        },
+    )
+    assert response.status_code == 200
+    assert response.headers.get("access-control-allow-origin") == origin

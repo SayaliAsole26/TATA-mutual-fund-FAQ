@@ -107,13 +107,15 @@ app = FastAPI(
 )
 
 app.add_middleware(ChatRateLimitMiddleware)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.cors_origin_list,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+_cors_kwargs: dict = {
+    "allow_origins": settings.cors_origin_list,
+    "allow_credentials": True,
+    "allow_methods": ["*"],
+    "allow_headers": ["*"],
+}
+if settings.cors_origin_regex_pattern:
+    _cors_kwargs["allow_origin_regex"] = settings.cors_origin_regex_pattern
+app.add_middleware(CORSMiddleware, **_cors_kwargs)
 
 app.include_router(chat.router, prefix="/api", tags=["chat"])
 app.include_router(health.router, prefix="/api", tags=["health"])

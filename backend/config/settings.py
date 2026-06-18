@@ -27,6 +27,10 @@ class Settings(BaseSettings):
         default="http://localhost:5173,http://127.0.0.1:5173",
         alias="CORS_ORIGINS",
     )
+    cors_origin_regex: str = Field(
+        default=r"https://.*\.vercel\.app",
+        alias="CORS_ORIGIN_REGEX",
+    )
     ingest_api_key: str = Field(default="", alias="INGEST_API_KEY")
     auto_ingest_on_startup: bool = Field(default=False, alias="AUTO_INGEST_ON_STARTUP")
 
@@ -97,6 +101,11 @@ class Settings(BaseSettings):
             if cleaned:
                 origins.append(cleaned)
         return origins
+
+    @property
+    def cors_origin_regex_pattern(self) -> str | None:
+        pattern = self.cors_origin_regex.strip()
+        return pattern or None
 
 
 @lru_cache
