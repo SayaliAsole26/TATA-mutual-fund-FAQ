@@ -1,0 +1,1 @@
+"""Stitch-built web frontend."""

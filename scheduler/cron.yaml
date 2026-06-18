@@ -1,0 +1,23 @@
+# Daily corpus ingestion — 10:00 IST (Asia/Kolkata)
+#
+# Cron expression: 0 10 * * *
+# UTC equivalent (when host has no TZ support): 30 4 * * *
+#
+# Linux / macOS (crontab):
+#   TZ=Asia/Kolkata
+#   0 10 * * * cd /path/to/project && python scheduler/daily_ingest_job.py >> logs/ingest.log 2>&1
+#
+# Windows Task Scheduler:
+#   Program: python
+#   Arguments: scheduler\daily_ingest_job.py
+#   Start in: <project root>
+#   Trigger: Daily 10:00 AM (set time zone to (UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi)
+#
+# Manual dev trigger:
+#   python scheduler/daily_ingest_job.py
+
+schedule: "0 10 * * *"
+timezone: Asia/Kolkata
+utc_equivalent: "30 4 * * *"
+command: python scheduler/daily_ingest_job.py
+pipeline: scripts/ingest_corpus.py

@@ -1,0 +1,126 @@
+{
+  "amc": "Tata Mutual Fund",
+  "version": 1,
+  "schemes": [
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-small-cap-fund-direct-growth",
+      "scheme_name": "Tata Small Cap Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-small-cap-fund-direct-growth",
+      "category": "Equity Small Cap",
+      "last_ingested_at": "2026-06-18T18:06:40.543538+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-digital-india-fund-direct-growth",
+      "scheme_name": "Tata Digital India Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
+      "category": "Equity Thematic",
+      "last_ingested_at": "2026-06-18T18:06:41.040384+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-silver-etf-fof-direct-growth",
+      "scheme_name": "Tata Silver ETF FoF Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-silver-etf-fof-direct-growth",
+      "category": "Commodities Silver",
+      "last_ingested_at": "2026-06-18T18:06:41.645086+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-ethical-fund-direct-growth",
+      "scheme_name": "Tata Ethical Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-ethical-fund-direct-growth",
+      "category": "Equity Thematic",
+      "last_ingested_at": "2026-06-18T18:06:42.080992+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-arbitrage-fund-direct-growth",
+      "scheme_name": "Tata Arbitrage Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-arbitrage-fund-direct-growth",
+      "category": "Hybrid Arbitrage",
+      "last_ingested_at": "2026-06-18T18:06:42.922678+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-nifty-capital-markets-index-fund-direct-growth",
+      "scheme_name": "Tata Nifty Capital Markets Index Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-nifty-capital-markets-index-fund-direct-growth",
+      "category": "Equity Thematic",
+      "last_ingested_at": "2026-06-18T18:06:43.749620+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-resources-energy-fund-direct-growth",
+      "scheme_name": "Tata Resources & Energy Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-resources-energy-fund-direct-growth",
+      "category": "Equity Sectoral",
+      "last_ingested_at": "2026-06-18T18:06:44.412745+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-elss-fund-direct-growth",
+      "scheme_name": "Tata ELSS Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
+      "category": "ELSS",
+      "last_ingested_at": "2026-06-18T18:06:45.189532+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-multicap-fund-direct-growth",
+      "scheme_name": "Tata Multicap Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-multicap-fund-direct-growth",
+      "category": "Equity Multicap",
+      "last_ingested_at": "2026-06-18T18:06:45.938789+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-ultra-short-term-fund-direct-growth",
+      "scheme_name": "Tata Ultra Short Term Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-ultra-short-term-fund-direct-growth",
+      "category": "Debt Ultra Short Duration",
+      "last_ingested_at": "2026-06-18T18:06:46.623020+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-mid-cap-direct-plan-growth",
+      "scheme_name": "Tata Mid Cap Direct Plan Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
+      "category": "Equity Mid Cap",
+      "last_ingested_at": "2026-06-18T18:06:47.173199+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-flexi-cap-fund-direct-growth",
+      "scheme_name": "Tata Flexi Cap Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-flexi-cap-fund-direct-growth",
+      "category": "Equity Flexi Cap",
+      "last_ingested_at": "2026-06-18T18:06:48.692569+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-large-cap-fund-direct-growth",
+      "scheme_name": "Tata Large Cap Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
+      "category": "Equity Large Cap",
+      "last_ingested_at": "2026-06-18T18:06:49.427322+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-floater-fund-direct-growth",
+      "scheme_name": "Tata Floater Fund Direct Growth",
+      "source_url": "https://groww.in/mutual-funds/tata-floater-fund-direct-growth",
+      "category": "Debt Floater",
+      "last_ingested_at": "2026-06-18T18:06:50.382077+00:00"
+    },
+    {
+      "amc": "Tata Mutual Fund",
+      "scheme_id": "tata-bse-sensex-index-direct",
+      "scheme_name": "Tata BSE Sensex Index Direct",
+      "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
+      "category": "Equity Index",
+      "last_ingested_at": "2026-06-18T18:06:51.026444+00:00"
+    }
+  ]
+}
