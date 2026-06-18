@@ -107,11 +107,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No metadata changes to commit."
           else
-            git commit -m "$(cat <<'EOF'
-chore(ingest): daily corpus metadata refresh [skip ci]
-
-Automated update from Daily Corpus Ingest workflow (10:00 IST).
-EOF
-)"
+            git commit -m "chore(ingest): daily corpus metadata refresh [skip ci]" -m "Automated update from Daily Corpus Ingest workflow (10:00 IST)."
             git push
           fi
