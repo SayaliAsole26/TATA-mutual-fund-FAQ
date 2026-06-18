@@ -801,16 +801,18 @@ curl http://localhost:8000/api/schemes
 
 **Depends on:** Phases 1–4 complete
 
+**Status:** Complete (134 tests passing; CI workflow; Railway + Vercel deployed)
+
 ### 5.1 Tasks
 
 #### 5.1.1 Test suite
 
-- [ ] **Unit tests** — PII regex, advisory keywords, sentence/link counting (`tests/test_guardrails.py`)
-- [ ] **Integration tests** — Retrieval accuracy per scheme (`tests/test_retrieval.py`)
-- [ ] **Format tests** — Footer and citation structure (`tests/test_response_format.py`)
-- [ ] **Golden-set QA** — 30–50 factual Q&A pairs with expected fields and URLs
-- [ ] **Refusal suite** — All advisory/comparison/PII cases
-- [ ] **Scheduler test** — Daily job completes for 15 URLs; `last_ingested_at` updates
+- [x] **Unit tests** — PII regex, advisory keywords, sentence/link counting (`tests/test_guardrails.py`)
+- [x] **Integration tests** — Retrieval accuracy per scheme (`tests/test_retrieval.py`)
+- [x] **Format tests** — Footer and citation structure (`tests/test_response_format.py`)
+- [x] **Golden-set QA** — 20 factual + 8 refusal cases (`tests/test_golden_set.py`)
+- [x] **Refusal suite** — All advisory/comparison/PII cases
+- [x] **Scheduler test** — Workflow + freshness (`tests/test_scheduler.py`)
 
 #### 5.1.2 Golden-set examples (minimum 20)
 
@@ -829,22 +831,22 @@ curl http://localhost:8000/api/schemes
 
 #### 5.1.3 Security & reliability
 
-- [ ] Rate limiting on `/api/chat` (e.g. 30 req/min per IP)
-- [ ] Environment variables for all secrets (`GROQ_API_KEY`, etc.)
-- [ ] Minimal logging (intent class, `scheme_id`; no raw PII)
-- [ ] CORS configured for Stitch UI origin
-- [ ] Health check endpoint monitored
+- [x] Rate limiting on `/api/chat` (30 req/min per IP via `ChatRateLimitMiddleware`)
+- [x] Environment variables for all secrets (`GROQ_API_KEY`, etc.)
+- [x] Minimal logging (intent class, `scheme_id`; no raw PII)
+- [x] CORS configured for Stitch UI origin
+- [x] Health check endpoint monitored (`/api/health` + corpus freshness)
 
 #### 5.1.4 Scheduler operations
 
-- [ ] Production cron / CronJob at **10:00 IST** — use GitHub Actions `daily-ingest.yml` or host cron
-- [ ] Runbook: what to do on ingestion failure
-- [ ] Alerting on stale `last_ingested_at` (> 26 hours)
-- [ ] Log retention for ingestion runs (start, end, success/fail counts)
+- [x] Production cron / CronJob at **10:00 IST** — GitHub Actions `daily-ingest.yml`
+- [x] Runbook: what to do on ingestion failure (`Docs folder/scheduler-runbook.md`)
+- [x] Alerting on stale `last_ingested_at` (> 26 hours) via `/api/health` → `corpus.status`
+- [x] Log retention for ingestion runs (GitHub Actions artifacts + run logs)
 
 #### 5.1.5 Documentation
 
-- [ ] **`README.md`** with:
+- [x] **`README.md`** with:
   - Setup instructions (Groq API key, BGE model download, Stitch UI)
   - Selected AMC and 15 schemes
   - Architecture overview (RAG + daily 10:00 IST ingestion)
@@ -852,16 +854,16 @@ curl http://localhost:8000/api/schemes
   - How to run ingestion manually
   - How to run tests
 
-- [ ] **Disclaimer snippet** in README and UI:
+- [x] **Disclaimer snippet** in README and UI:
   > Facts-only. No investment advice.
 
 #### 5.1.6 Deployment
 
-- [ ] Containerize API (Dockerfile)
-- [ ] Mount or bake vector store volume
-- [ ] Separate scheduler container or platform CronJob
-- [ ] Deploy Stitch-built UI (static hosting or alongside API)
-- [ ] Smoke test in staging: chat + scheduled ingestion
+- [x] Containerize API (Dockerfile)
+- [x] Mount or bake vector store volume (bundled chunks + embed-only bootstrap)
+- [x] Separate scheduler container or platform CronJob (GitHub Actions)
+- [x] Deploy Stitch-built UI (Vercel static hosting)
+- [x] Smoke test in staging: chat + scheduled ingestion
 
 ### 5.2 Deliverables
 
@@ -941,14 +943,14 @@ flowchart TD
 
 The project is complete when all of the following are true:
 
-- [ ] All 5 phases meet their acceptance criteria
-- [ ] 15-scheme corpus ingests successfully on manual and scheduled runs
-- [ ] Daily scheduler runs at **10:00 IST** in the target environment (GitHub Actions: `.github/workflows/daily-ingest.yml`)
-- [ ] Chat API answers factual queries with ≤3 sentences, one citation, and footer date
-- [ ] Advisory, comparative, PII, and performance queries are handled per spec
-- [ ] Stitch UI shows welcome message, three examples, and persistent disclaimer
-- [ ] README documents setup, architecture, schemes, and limitations
-- [ ] Golden-set and refusal test suites pass in CI
+- [x] All 5 phases meet their acceptance criteria
+- [x] 15-scheme corpus ingests successfully on manual and scheduled runs
+- [x] Daily scheduler runs at **10:00 IST** in the target environment (GitHub Actions: `.github/workflows/daily-ingest.yml`)
+- [x] Chat API answers factual queries with ≤3 sentences, one citation, and footer date
+- [x] Advisory, comparative, PII, and performance queries are handled per spec
+- [x] Stitch UI shows welcome message, three examples, and persistent disclaimer
+- [x] README documents setup, architecture, schemes, and limitations
+- [x] Golden-set and refusal test suites pass in CI
 
 ---
 

@@ -15,6 +15,7 @@ from app.api import chat, health, ingest, schemes
 from app.api.health import build_health_payload
 from app.core import bootstrap_ingest
 from app.ingestion.embed_index import stats
+from app.middleware.rate_limit import ChatRateLimitMiddleware
 from config.settings import BACKEND_ROOT, get_settings
 
 logger = logging.getLogger(__name__)
@@ -105,6 +106,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+app.add_middleware(ChatRateLimitMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origin_list,

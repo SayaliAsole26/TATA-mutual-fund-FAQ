@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter
 
+from app.core.corpus_freshness import corpus_freshness
 from app.ingestion.embed_index import stats
 from config.settings import get_settings
 
@@ -26,10 +27,14 @@ def build_health_payload() -> dict:
         issues.append("index")
     if not groq_configured:
         issues.append("groq_api_key")
+    corpus = corpus_freshness(settings)
+    if corpus.get("status") == "stale":
+        issues.append("corpus_stale")
 
     payload = {
         "status": "ok" if not issues else "degraded",
         "index": index,
+        "corpus": corpus,
         "llm": {
             "provider": "groq",
             "configured": groq_configured,
