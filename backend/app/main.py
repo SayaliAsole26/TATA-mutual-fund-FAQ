@@ -134,7 +134,7 @@ def root() -> dict:
     ingest_state = bootstrap_ingest.snapshot()
     if (
         settings.auto_ingest_on_startup
-        and ingest_state["status"] != "idle"
+        and ingest_state["status"] in ("running", "succeeded", "failed")
         and payload["index"].get("status") != "ok"
     ):
         payload["ingest"] = ingest_state

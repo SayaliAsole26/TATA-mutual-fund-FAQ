@@ -31,9 +31,14 @@ ENV PYTHONUNBUFFERED=1 \
     EMBEDDING_MODEL_LARGE=BAAI/bge-small-en-v1.5 \
     EMBED_BATCH_SIZE=8
 
+# Bake the Chroma index into the image so Railway deploys start healthy.
+# Without this, every redeploy wipes /app/data/index and triggers a 3–10 min
+# background rebuild — health flips degraded/ok and the Vercel UI disables chat.
+RUN python scripts/ingest_corpus.py --embed-only
+
 EXPOSE 8000
 
-HEALTHCHECK --interval=30s --timeout=15s --start-period=180s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=15s --start-period=60s --retries=3 \
     CMD curl -fsS "http://127.0.0.1:${PORT:-8000}/api/health" || exit 1
 
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

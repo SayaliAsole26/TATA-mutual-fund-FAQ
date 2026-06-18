@@ -40,7 +40,9 @@ export default function App() {
       const indexStatus = h.index?.status;
       if (indexStatus === "empty" || indexStatus === "missing_collection") {
         setApiStatus("no_index");
-        return h.ingest?.status === "running";
+        const ingestStatus = h.ingest?.status;
+        // Keep polling while bootstrap runs or just finished (Chroma may lag briefly).
+        return ingestStatus === "running" || ingestStatus === "succeeded";
       }
       setApiStatus("unreachable");
       return true;
@@ -182,6 +184,11 @@ export default function App() {
                   : "fetching Groww pages"}
                 ) — usually 3–10 minutes. This page will update automatically when
                 the index is ready.
+              </>
+            ) : ingestInfo?.status === "succeeded" ? (
+              <>
+                Index build finished — activating search index. This page will update
+                in a few seconds.
               </>
             ) : ingestInfo?.status === "failed" ? (
               <>

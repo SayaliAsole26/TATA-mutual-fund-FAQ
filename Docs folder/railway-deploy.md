@@ -30,9 +30,7 @@ The failing deploy was triggered by the GitHub Actions ingest commit (`chore(ing
 | `PREFER_LOCAL_SNAPSHOTS` | Auto in Docker | Set `false` — fetch live from Groww on Railway |
 | `PORT` | Auto | Set by Railway |
 
-4. **Vector index:** `data/index/` is not in git. On first Railway deploy, `AUTO_INGEST_ON_STARTUP=true` fetches all 15 schemes and builds the Chroma index in the **background** (15–45 min). `/api/health` stays `degraded` until complete. Alternatively:
-   - Call `POST /api/ingest` with header `X-Admin-Key: <INGEST_API_KEY>`, or
-   - Download the `chroma-index-*` artifact from GitHub Actions and attach a Railway volume at `/app/data/index`
+4. **Vector index:** baked into the Docker image at build time (`embed-only` in `Dockerfile`), so deploys should report `index.status: ok` immediately. `AUTO_INGEST_ON_STARTUP` only runs if the index is missing (e.g. empty volume). **Do not set `EMBEDDING_MODEL_LARGE` on Railway to a different model than the Dockerfile** (`BAAI/bge-small-en-v1.5`) — mismatched models break search. For persistence across redeploys without rebuild, attach a Railway volume at `/app/data/index`.
 
 5. **Redeploy:** Push this commit, or click **Redeploy** in Railway.
 
