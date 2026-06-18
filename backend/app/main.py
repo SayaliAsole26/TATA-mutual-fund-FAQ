@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import chat, health, ingest, schemes
+from app.ingestion.embed_index import stats
 from config.settings import get_settings
 
 settings = get_settings()
@@ -32,4 +33,12 @@ app.include_router(ingest.router, prefix="/api", tags=["ingest"])
 
 @app.get("/")
 def root() -> dict:
-    return {"service": "mutual-fund-faq-assistant", "docs": "/docs"}
+    index = stats()
+    status = "ok" if index.get("status") == "ok" else "degraded"
+    return {
+        "service": "mutual-fund-faq-assistant",
+        "status": status,
+        "index": index,
+        "docs": "/docs",
+        "health": "/api/health",
+    }
