@@ -22,7 +22,7 @@ export default function ChatSidebar({
 }: ChatSidebarProps) {
   if (desktop) {
     return (
-      <div className="flex flex-1 flex-col bg-surface-container-low">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-surface-container-low">
         <SidebarContent
           sessions={sessions}
           activeId={activeId}
@@ -64,8 +64,8 @@ function SidebarContent({
   showClose,
 }: Omit<ChatSidebarProps, "desktop"> & { showClose: boolean }) {
   return (
-    <>
-      <div className="flex items-center justify-between border-b border-outline-variant p-md">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+      <div className="flex flex-shrink-0 items-center justify-between border-b border-outline-variant p-md">
         <h2 className="font-mono text-xs font-bold uppercase tracking-wider text-on-surface-variant">
           Chats
         </h2>
@@ -83,12 +83,12 @@ function SidebarContent({
       <button
         type="button"
         onClick={onNew}
-        className="m-md flex items-center justify-center gap-xs rounded-lg border border-primary bg-primary/10 py-sm font-mono text-xs font-medium text-primary transition-colors hover:bg-primary/20"
+        className="m-md flex flex-shrink-0 items-center justify-center gap-xs rounded-lg border border-primary bg-primary/10 py-sm font-mono text-xs font-medium text-primary transition-colors hover:bg-primary/20"
       >
         <span className="material-symbols-outlined text-[18px]">add</span>
         New chat
       </button>
-      <ul className="custom-scroll flex-1 overflow-y-auto px-sm pb-md">
+      <ul className="custom-scroll min-h-0 flex-1 overflow-y-auto px-sm pb-md">
         {sessions.map((s) => (
           <li key={s.id} className="mb-xs">
             <div
@@ -125,6 +125,6 @@ function SidebarContent({
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 }

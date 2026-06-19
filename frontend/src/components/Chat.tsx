@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { friendlyApiError, postChat } from "../api/client";
 import type { ChatApiResponse, ChatMessage } from "../types/chat";
 import { formatLastUpdated, parseFormattedAnswer } from "../utils/parseAnswer";
-import ExampleChips from "./ExampleChips";
 import Disclaimer from "./Disclaimer";
 import InputBar from "./InputBar";
 import MessageBubble from "./MessageBubble";
@@ -63,10 +62,12 @@ export default function Chat({ messages, onAppend, disabled = false }: ChatProps
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
   }, [messages, loading]);
 
   const sendMessage = useCallback(
@@ -107,8 +108,11 @@ export default function Chat({ messages, onAppend, disabled = false }: ChatProps
   );
 
   return (
-    <>
-      <div className="custom-scroll flex-1 space-y-xl overflow-y-auto pb-52">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+      <div
+        ref={scrollRef}
+        className="custom-scroll min-h-0 flex-1 space-y-xl overflow-y-auto pb-52"
+      >
         {messages.length === 0 ? (
           <Welcome onExample={sendMessage} disabled={loading || disabled} />
         ) : (
@@ -122,15 +126,11 @@ export default function Chat({ messages, onAppend, disabled = false }: ChatProps
             <span className="font-mono text-xs">Fetching verified facts…</span>
           </div>
         )}
-        <div ref={bottomRef} />
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-outline-variant bg-surface-container-low p-md md:left-72">
         <div className="mx-auto max-w-container-max space-y-sm">
           <Disclaimer />
-          {messages.length > 0 && (
-            <ExampleChips onSelect={sendMessage} disabled={loading || disabled} />
-          )}
           {error && (
             <div className="rounded-lg border border-error-container bg-error-container/20 p-sm text-sm text-error">
               {error}
@@ -145,6 +145,6 @@ export default function Chat({ messages, onAppend, disabled = false }: ChatProps
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

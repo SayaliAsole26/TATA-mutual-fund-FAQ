@@ -131,20 +131,6 @@ Each factual answer includes a **source link** to the Groww scheme page used.
 
 ---
 
-## 10. Fund manager (factual answer)
-
-**Query:** Who manages Tata Flexi Cap Fund?
-
-**Scheme:** Tata Flexi Cap Fund Direct Growth
-
-**Answer:** Anand V Sharma manages Tata Flexi Cap Fund.
-
-**Source:** https://groww.in/mutual-funds/tata-flexi-cap-fund-direct-growth
-
-**Last updated from sources:** 18 Jun 2026
-
----
-
 ## Reproduce locally
 
 ```bash

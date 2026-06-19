@@ -79,18 +79,20 @@ export default function App() {
   );
 
   return (
-    <div className="flex min-h-screen bg-surface text-on-surface">
-      <div className="hidden md:flex md:w-72 md:flex-shrink-0 md:flex-col md:border-r md:border-outline-variant">
+    <div className="flex h-dvh overflow-hidden bg-surface text-on-surface">
+      <div className="hidden md:flex md:h-full md:w-72 md:flex-shrink-0 md:flex-col md:overflow-hidden md:border-r md:border-outline-variant">
         <div className="h-16 flex-shrink-0" />
-        <ChatSidebar
-          sessions={sessions}
-          activeId={activeId}
-          onSelect={setActiveId}
-          onNew={createNewChat}
-          onDelete={deleteChat}
-          onClose={() => undefined}
-          desktop
-        />
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          <ChatSidebar
+            sessions={sessions}
+            activeId={activeId}
+            onSelect={setActiveId}
+            onNew={createNewChat}
+            onDelete={deleteChat}
+            onClose={() => undefined}
+            desktop
+          />
+        </div>
       </div>
 
       {sidebarOpen && (
@@ -107,7 +109,7 @@ export default function App() {
         />
       )}
 
-      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
+      <div className="flex h-dvh min-w-0 flex-1 flex-col overflow-hidden">
         <Header
           onToggleSessions={() => setSidebarOpen((o) => !o)}
           sessionsOpen={sidebarOpen}
@@ -207,7 +209,7 @@ export default function App() {
           </div>
         )}
 
-        <main className="mx-auto flex w-full max-w-container-max flex-1 flex-col px-md pt-20">
+        <main className="mx-auto flex min-h-0 w-full max-w-container-max flex-1 flex-col overflow-hidden px-md pt-20">
           <Chat
             key={activeSession.id}
             messages={activeSession.messages}
