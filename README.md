@@ -4,6 +4,16 @@ Facts-only RAG chat assistant for **15 Tata Mutual Fund schemes** listed on Grow
 
 > **Facts-only. No investment advice.**
 
+## Live deployment
+
+| Service | URL |
+|---------|-----|
+| **UI** | https://tata-mutual-fund-faq.vercel.app |
+| **API** | https://tata-mutual-fund-faq-production.up.railway.app |
+| **Repo** | https://github.com/SayaliAsole26/TATA-mutual-fund-FAQ |
+
+Full guide: [Docs folder/end-to-end-guide.md](Docs%20folder/end-to-end-guide.md)
+
 ## Architecture
 
 ```
@@ -58,6 +68,7 @@ Open http://localhost:5173
 |----------|-------|---------|
 | `GROQ_API_KEY` | Railway | LLM generation (**not** Vercel) |
 | `CORS_ORIGINS` | Railway | Vercel URL, no trailing slash |
+| `CORS_ORIGIN_REGEX` | Railway | Default `https://.*\.vercel\.app` for preview deploys |
 | `VITE_API_BASE_URL` | Vercel | Railway API URL (`https://…`) |
 | `INGEST_API_KEY` | Railway | Optional `POST /api/ingest` |
 | `CHAT_RATE_LIMIT_PER_MINUTE` | Railway | Default 30 |
@@ -114,7 +125,7 @@ Detailed notes: `Docs folder/railway-deploy.md`, `Docs folder/scheduler-runbook.
 - **Groww-only corpus** — refuses other AMCs and generic advice
 - **Facts-only** — no performance predictions, comparisons, or personalised advice
 - **English queries** — optimised for the 15 registered scheme names
-- **Ephemeral index on Railway** — rebuilt on deploy from bundled chunks (~3–10 min); use a volume for persistence
+- **Ephemeral index on Railway** — index is baked into the Docker image at build time; optional Railway volume at `/app/data/index` for persistence across redeploys
 - **CPU embeddings** — first query after cold start may be slower while BGE loads
 
 ## Disclaimer
@@ -125,7 +136,14 @@ Educational links: [AMFI Investor Corner](https://www.amfiindia.com/investor-cor
 
 ## Documentation
 
+- **[Docs folder/README.md](Docs%20folder/README.md)** — setup, scope, known limits
+- **[source-list.md](Docs%20folder/source-list.md)** / **[source-list.csv](Docs%20folder/source-list.csv)** — 15 corpus URLs
+- **[sample-qa.md](Docs%20folder/sample-qa.md)** — example queries and answers
+- **[disclaimer.md](Docs%20folder/disclaimer.md)** — UI disclaimer text
+- **[end-to-end-guide.md](Docs%20folder/end-to-end-guide.md)** — full project guide with live links
 - [implementation.md](Docs%20folder/implementation.md) — phased build plan
 - [architecture.md](Docs%20folder/architecture.md) — system design
+- [railway-deploy.md](Docs%20folder/railway-deploy.md) — Railway API deployment
+- [scheduler-runbook.md](Docs%20folder/scheduler-runbook.md) — daily ingest ops
 - [backend/README.md](backend/README.md) — API details
 - [frontend/README.md](frontend/README.md) — UI setup
