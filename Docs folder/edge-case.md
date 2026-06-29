@@ -159,7 +159,7 @@ Derived from [architecture.md](./architecture.md), [implementation.md](./impleme
 |----|----------|---------------|-------------------|----------|-----------|
 | EC-F-001 | Missing footer date | Valid factual answer from LLM | Formatter injects `Last updated from sources: <date>` from `extracted_at` | P0 | Formatter |
 | EC-F-002 | Per-scheme vs global ingestion date | Multi-scheme day partial ingest | Use per-scheme `last_ingested_at` when available | P1 | Formatter |
-| EC-F-003 | Date format inconsistency | ISO vs display | Standardize to display format e.g. `18 Jun 2026` | P1 | Formatter |
+| EC-F-003 | Date format inconsistency | ISO vs display | Standardize to display format e.g. `18 Jun 2027` | P1 | Formatter |
 | EC-F-004 | Answer exactly 3 sentences at limit | Boundary | Pass validation | P0 | Guardrails |
 | EC-F-005 | Answer 4 sentences | Boundary | Fail; regenerate or truncate | P0 | Guardrails |
 | EC-F-006 | URL in markdown vs plain | `[Source](url)` | Normalize to single plain URL line per spec | P1 | Formatter |

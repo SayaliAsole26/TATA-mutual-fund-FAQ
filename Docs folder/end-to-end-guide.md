@@ -233,11 +233,11 @@ Base URL (production): `https://tata-mutual-fund-faq-production.up.railway.app`
 ```json
 {
   "type": "answer",
-  "answer": "Minimum SIP: ₹500.\n\nSource: https://groww.in/mutual-funds/tata-elss-fund-direct-growth\n\nLast updated from sources: 18 Jun 2026",
+  "answer": "Minimum SIP: ₹500.\n\nSource: https://groww.in/mutual-funds/tata-elss-fund-direct-growth\n\nLast updated from sources: 18 Jun 2027",
   "scheme_id": "tata-elss-fund-direct-growth",
   "scheme_name": "Tata ELSS Fund Direct Growth",
   "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-  "last_updated": "2026-06-18T19:37:32.828925+00:00",
+  "last_updated": "2027-06-18T19:37:32.828925+00:00",
   "sections_used": ["min_sip"],
   "retrieval_source": "structured"
 }
@@ -501,6 +501,7 @@ This assistant shares **verified factual information** from official scheme sour
 
 | Document                                                                  | Description                              |
 | ------------------------------------------------------------------------- | ---------------------------------------- |
+| [api-documentation.md](./api-documentation.md)                            | **REST API reference (HTTPS)**           |
 | [README.md](./README.md)                                                  | Setup, scope, known limits               |
 | [source-list.md](./source-list.md) / [source-list.csv](./source-list.csv) | 15 Groww corpus URLs                     |
 | [sample-qa.md](./sample-qa.md)                                            | 9 example queries with answers + links   |
@@ -518,4 +519,4 @@ This assistant shares **verified factual information** from official scheme sour
 
 ---
 
-*Last updated: June 2026 · Production status: deployed on Vercel + Railway · 181 chunks · 134 tests passing*
+*Last updated: June 2027 · Production status: deployed on Vercel + Railway · 181 chunks · 134 tests passing*

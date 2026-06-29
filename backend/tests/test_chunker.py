@@ -50,7 +50,7 @@ def elss_processed() -> dict:
         "scheme_id": "tata-elss-fund-direct-growth",
         "scheme_name": "Tata ELSS Fund Direct Growth",
         "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "parsed_at": "2026-06-18T18:09:51+00:00",
+        "parsed_at": "2027-06-18T18:09:51+00:00",
         "sections": {
             "expense_ratio": "Expense ratio: 1.17%",
             "min_sip": "Minimum SIP amount: ₹500",

@@ -23,7 +23,7 @@ def test_answer_has_single_source_line() -> None:
     answer = build_formatted_answer(
         "The minimum SIP amount is ₹500.",
         "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "2026-06-18T18:09:51+00:00",
+        "2027-06-18T18:09:51+00:00",
     )
     assert len(SOURCE_LINE.findall(answer)) == 1
     assert len(FOOTER_LINE.findall(answer)) == 1
@@ -33,7 +33,7 @@ def test_extract_source_and_footer() -> None:
     answer = build_formatted_answer(
         "The expense ratio is 1.17%.",
         "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "2026-06-18T18:09:51+00:00",
+        "2027-06-18T18:09:51+00:00",
     )
     url = extract_source_url(answer)
     assert url == "https://groww.in/mutual-funds/tata-elss-fund-direct-growth"
@@ -59,7 +59,7 @@ def test_validate_rejects_advice_language_in_body() -> None:
     answer = build_formatted_answer(
         "You should buy this fund today for guaranteed returns.",
         "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "2026-06-18T18:09:51+00:00",
+        "2027-06-18T18:09:51+00:00",
     )
     result = validate_output(answer)
     assert result.valid is False
@@ -70,7 +70,7 @@ def test_answer_body_excludes_source_block() -> None:
     answer = build_formatted_answer(
         "Lock-in period is 3 years.",
         "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "2026-06-18T18:09:51+00:00",
+        "2027-06-18T18:09:51+00:00",
     )
     body = extract_answer_body(answer)
     assert "Source:" not in body

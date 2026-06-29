@@ -96,7 +96,7 @@ The corpus is a fixed list of 15 Tata Mutual Fund scheme pages on Groww. Each en
   "scheme_name": "Tata ELSS Fund Direct Growth",
   "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
   "category": "ELSS",
-  "last_ingested_at": "2026-06-18T00:00:00Z"
+  "last_ingested_at": "2027-06-18T00:00:00Z"
 }
 ```
 
@@ -348,7 +348,7 @@ All responses share a consistent structure:
 
 Source: https://groww.in/mutual-funds/<scheme-slug>
 
-Last updated from sources: 18 Jun 2026
+Last updated from sources: 18 Jun 2027
 ```
 
 | Response Type | Citation Source |
@@ -418,7 +418,7 @@ The formatter enforces URL allowlisting against the corpus registry and educatio
 ```json
 {
   "type": "answer",
-  "message": "The expense ratio of Tata Large Cap Fund Direct Growth is 0.29%. This is the annual fee charged by the fund house for managing the scheme.\n\nSource: https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth\n\nLast updated from sources: 18 Jun 2026",
+  "message": "The expense ratio of Tata Large Cap Fund Direct Growth is 0.29%. This is the annual fee charged by the fund house for managing the scheme.\n\nSource: https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth\n\nLast updated from sources: 18 Jun 2027",
   "citation_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
   "scheme_id": "tata-large-cap-fund-direct-growth"
 }

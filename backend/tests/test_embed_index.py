@@ -32,7 +32,7 @@ def sample_chunks() -> list[dict]:
             "section": "expense_ratio",
             "section_label": "Expense ratio",
             "content": "Expense ratio: 1.00%",
-            "extracted_at": "2026-06-18T00:00:00+00:00",
+            "extracted_at": "2027-06-18T00:00:00+00:00",
             "chunk_index": 0,
             "chunk_source": "processed",
         },
@@ -44,7 +44,7 @@ def sample_chunks() -> list[dict]:
             "section": "min_sip",
             "section_label": "Minimum SIP",
             "content": "Minimum SIP amount: ₹500",
-            "extracted_at": "2026-06-18T00:00:00+00:00",
+            "extracted_at": "2027-06-18T00:00:00+00:00",
             "chunk_index": 0,
             "chunk_source": "processed",
         },
@@ -56,7 +56,7 @@ def sample_chunks() -> list[dict]:
             "section": "expense_ratio",
             "section_label": "Expense ratio",
             "content": "Expense ratio: 0.50%",
-            "extracted_at": "2026-06-18T00:00:00+00:00",
+            "extracted_at": "2027-06-18T00:00:00+00:00",
             "chunk_index": 0,
             "chunk_source": "processed",
         },
@@ -86,7 +86,7 @@ def corpus_dirs(tmp_path: Path, sample_chunks: list[dict]) -> tuple[Path, Path]:
         payload = {
             "scheme_id": scheme_id,
             "chunk_count": len(scheme_chunks),
-            "generated_at": "2026-06-18T00:00:00+00:00",
+            "generated_at": "2027-06-18T00:00:00+00:00",
             "chunks": scheme_chunks,
         }
         (processed / f"{scheme_id}_chunks.json").write_text(
@@ -154,7 +154,7 @@ def test_index_scheme_replaces_scheme_chunks(
     payload = {
         "scheme_id": "scheme-a",
         "chunk_count": 1,
-        "generated_at": "2026-06-18T00:00:00+00:00",
+        "generated_at": "2027-06-18T00:00:00+00:00",
         "chunks": scheme_a_chunks,
     }
     (processed / "scheme-a_chunks.json").write_text(json.dumps(payload), encoding="utf-8")

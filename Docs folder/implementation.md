@@ -479,7 +479,7 @@ Final user-visible text (validator checks in Phase 3):
 
 Source: https://groww.in/mutual-funds/<scheme-slug>
 
-Last updated from sources: 18 Jun 2026
+Last updated from sources: 18 Jun 2027
 ```
 
 API returns structured JSON **and** this formatted `answer` string for the frontend.
@@ -521,11 +521,11 @@ Response (factual):
 ```json
 {
   "type": "answer",
-  "answer": "The minimum SIP amount is ₹500.\n\nSource: https://groww.in/mutual-funds/tata-elss-fund-direct-growth\n\nLast updated from sources: 18 Jun 2026",
+  "answer": "The minimum SIP amount is ₹500.\n\nSource: https://groww.in/mutual-funds/tata-elss-fund-direct-growth\n\nLast updated from sources: 18 Jun 2027",
   "scheme_id": "tata-elss-fund-direct-growth",
   "scheme_name": "Tata ELSS Fund Direct Growth",
   "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-  "last_updated": "2026-06-18T18:09:51+00:00",
+  "last_updated": "2027-06-18T18:09:51+00:00",
   "sections_used": ["min_sip"],
   "retrieval_source": "structured"
 }

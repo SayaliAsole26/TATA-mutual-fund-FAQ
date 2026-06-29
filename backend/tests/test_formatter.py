@@ -10,17 +10,17 @@ from app.core.retriever import RetrievedChunk
 
 
 def test_format_footer_date() -> None:
-    assert format_footer_date("2026-06-18T18:09:51+00:00") == "18 Jun 2026"
+    assert format_footer_date("2027-06-18T18:09:51+00:00") == "18 Jun 2027"
 
 
 def test_build_formatted_answer() -> None:
     text = build_formatted_answer(
         "The minimum SIP amount is ₹500.",
         "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "2026-06-18T18:09:51+00:00",
+        "2027-06-18T18:09:51+00:00",
     )
     assert "Source: https://groww.in/mutual-funds/tata-elss-fund-direct-growth" in text
-    assert "Last updated from sources: 18 Jun 2026" in text
+    assert "Last updated from sources: 18 Jun 2027" in text
 
 
 def test_allowed_source_url() -> None:
@@ -32,12 +32,12 @@ def test_normalize_llm_output_fixes_bad_url() -> None:
     raw = (
         "The expense ratio is 1.17%.\n\n"
         "Source: https://evil.example.com\n\n"
-        "Last updated from sources: 18 Jun 2026"
+        "Last updated from sources: 18 Jun 2027"
     )
     fixed = normalize_llm_output(
         raw,
         "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "2026-06-18T18:09:51+00:00",
+        "2027-06-18T18:09:51+00:00",
     )
     assert "groww.in/mutual-funds/tata-elss-fund-direct-growth" in fixed
 
@@ -50,7 +50,7 @@ def test_format_from_structured_chunk() -> None:
         scheme_id="tata-elss-fund-direct-growth",
         scheme_name="Tata ELSS Fund Direct Growth",
         source_url="https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        extracted_at="2026-06-18T18:09:51+00:00",
+        extracted_at="2027-06-18T18:09:51+00:00",
     )
     from app.core.formatter import format_from_structured
 

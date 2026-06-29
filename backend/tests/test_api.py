@@ -40,11 +40,11 @@ def test_chat_clarification() -> None:
 def test_chat_answer_mock(mock_handle) -> None:
     mock_handle.return_value = {
         "type": "answer",
-        "answer": "The expense ratio is 1.17%.\n\nSource: https://groww.in/mutual-funds/tata-elss-fund-direct-growth\n\nLast updated from sources: 18 Jun 2026",
+        "answer": "The expense ratio is 1.17%.\n\nSource: https://groww.in/mutual-funds/tata-elss-fund-direct-growth\n\nLast updated from sources: 18 Jun 2027",
         "scheme_id": "tata-elss-fund-direct-growth",
         "scheme_name": "Tata ELSS Fund Direct Growth",
         "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "last_updated": "2026-06-18T18:09:51+00:00",
+        "last_updated": "2027-06-18T18:09:51+00:00",
         "sections_used": ["expense_ratio"],
         "retrieval_source": "structured",
     }

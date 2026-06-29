@@ -103,7 +103,7 @@ def test_validate_output_accepts_good_answer() -> None:
     answer = build_formatted_answer(
         "The minimum SIP amount is ₹500.",
         "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "2026-06-18T18:09:51+00:00",
+        "2027-06-18T18:09:51+00:00",
     )
     result = validate_output(answer)
     assert result.valid is True
@@ -114,7 +114,7 @@ def test_validate_output_rejects_four_sentences() -> None:
     answer = build_formatted_answer(
         body,
         "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "2026-06-18T18:09:51+00:00",
+        "2027-06-18T18:09:51+00:00",
     )
     result = validate_output(answer)
     assert result.valid is False
@@ -125,7 +125,7 @@ def test_validate_output_rejects_bad_url() -> None:
     answer = (
         "The expense ratio is 1.17%.\n\n"
         "Source: https://evil.example.com\n\n"
-        "Last updated from sources: 18 Jun 2026"
+        "Last updated from sources: 18 Jun 2027"
     )
     result = validate_output(answer)
     assert result.valid is False
@@ -136,7 +136,7 @@ def test_validate_output_rejects_advice_language() -> None:
     answer = build_formatted_answer(
         "You should invest in this fund today.",
         "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "2026-06-18T18:09:51+00:00",
+        "2027-06-18T18:09:51+00:00",
     )
     result = validate_output(answer)
     assert "advice_language" in result.issues
@@ -157,12 +157,12 @@ def test_repair_output_truncates_sentences() -> None:
     broken = build_formatted_answer(
         long_body,
         "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        "2026-06-18T18:09:51+00:00",
+        "2027-06-18T18:09:51+00:00",
     )
     fixed = repair_output(
         broken,
         fallback_url="https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-        fallback_date="2026-06-18T18:09:51+00:00",
+        fallback_date="2027-06-18T18:09:51+00:00",
     )
     assert count_answer_sentences(fixed) <= 3
     assert validate_output(fixed).valid is True
@@ -202,7 +202,7 @@ def test_orchestrator_validates_long_llm_output(mock_generate) -> None:
     mock_generate.return_value = (
         "Sentence one. Sentence two. Sentence three. Sentence four.\n\n"
         "Source: https://groww.in/mutual-funds/tata-flexi-cap-fund-direct-growth\n\n"
-        "Last updated from sources: 18 Jun 2026"
+        "Last updated from sources: 18 Jun 2027"
     )
     result = handle_chat("Who manages Tata Flexi Cap Fund?")
     assert result["type"] == "answer"

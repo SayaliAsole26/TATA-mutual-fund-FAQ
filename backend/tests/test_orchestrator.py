@@ -19,7 +19,7 @@ def test_chat_with_mocked_groq(mock_generate) -> None:
     mock_generate.return_value = (
         "The minimum SIP amount is ₹500.\n\n"
         "Source: https://groww.in/mutual-funds/tata-elss-fund-direct-growth\n\n"
-        "Last updated from sources: 18 Jun 2026"
+        "Last updated from sources: 18 Jun 2027"
     )
     result = handle_chat("What is the minimum SIP for Tata ELSS?")
     assert result["type"] == "answer"

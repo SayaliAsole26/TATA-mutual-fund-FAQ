@@ -1,6 +1,6 @@
 # Sample Q&A
 
-Example queries run against the **production API** on 19 Jun 2026.  
+Example queries run against the **production API** on 18 Jun 2027.  
 Live UI: https://tata-mutual-fund-faq.vercel.app
 
 Each factual answer includes a **source link** to the Groww scheme page used.
@@ -17,7 +17,7 @@ Each factual answer includes a **source link** to the Groww scheme page used.
 
 **Source:** https://groww.in/mutual-funds/tata-elss-fund-direct-growth
 
-**Last updated from sources:** 18 Jun 2026
+**Last updated from sources:** 18 Jun 2027
 
 ---
 
@@ -31,7 +31,7 @@ Each factual answer includes a **source link** to the Groww scheme page used.
 
 **Source:** https://groww.in/mutual-funds/tata-arbitrage-fund-direct-growth
 
-**Last updated from sources:** 18 Jun 2026
+**Last updated from sources:** 18 Jun 2027
 
 ---
 
@@ -45,7 +45,7 @@ Each factual answer includes a **source link** to the Groww scheme page used.
 
 **Source:** https://groww.in/mutual-funds/tata-silver-etf-fof-direct-growth
 
-**Last updated from sources:** 18 Jun 2026
+**Last updated from sources:** 18 Jun 2027
 
 ---
 
@@ -59,7 +59,7 @@ Each factual answer includes a **source link** to the Groww scheme page used.
 
 **Source:** https://groww.in/mutual-funds/tata-elss-fund-direct-growth
 
-**Last updated from sources:** 18 Jun 2026
+**Last updated from sources:** 18 Jun 2027
 
 ---
 
@@ -73,7 +73,7 @@ Each factual answer includes a **source link** to the Groww scheme page used.
 
 **Source:** https://groww.in/mutual-funds/tata-flexi-cap-fund-direct-growth
 
-**Last updated from sources:** 18 Jun 2026
+**Last updated from sources:** 18 Jun 2027
 
 ---
 
@@ -87,7 +87,7 @@ Each factual answer includes a **source link** to the Groww scheme page used.
 
 **Source:** https://groww.in/mutual-funds/tata-bse-sensex-index-direct
 
-**Last updated from sources:** 18 Jun 2026
+**Last updated from sources:** 18 Jun 2027
 
 ---
 
@@ -101,7 +101,7 @@ Each factual answer includes a **source link** to the Groww scheme page used.
 
 **Source:** https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth
 
-**Last updated from sources:** 18 Jun 2026
+**Last updated from sources:** 18 Jun 2027
 
 ---
 
@@ -115,7 +115,7 @@ Each factual answer includes a **source link** to the Groww scheme page used.
 
 **Source:** https://www.amfiindia.com/investor-corner
 
-**Last updated from sources:** 19 Jun 2026
+**Last updated from sources:** 18 Jun 2027
 
 ---
 

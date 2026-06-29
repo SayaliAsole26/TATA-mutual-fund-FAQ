@@ -1,7 +1,7 @@
 {
   "scheme_id": "tata-digital-india-fund-direct-growth",
   "chunk_count": 12,
-  "generated_at": "2026-06-28T11:24:06.599686+00:00",
+  "generated_at": "2027-06-18T11:24:06.599686+00:00",
   "chunks": [
     {
       "chunk_id": "tata-digital-india-fund-direct-growth__expense_ratio__0",
@@ -10,7 +10,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "expense_ratio",
       "content": "Expense ratio: 0.59%",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Expense ratio"
@@ -22,7 +22,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "exit_load",
       "content": "Exit load: Exit load of 0.25% if redeemed within 30 days.",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Exit load"
@@ -34,7 +34,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "min_sip",
       "content": "Minimum SIP amount: ₹100",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Minimum SIP"
@@ -46,7 +46,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "min_lumpsum",
       "content": "Minimum first investment (lumpsum): ₹5,000",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Minimum lumpsum"
@@ -58,7 +58,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "riskometer",
       "content": "Riskometer: Very High Risk",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Riskometer"
@@ -70,7 +70,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "benchmark",
       "content": "Benchmark: NIFTY IT Total Return Index",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Benchmark"
@@ -82,7 +82,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "fund_managers",
       "content": "Fund manager(s): Hasmukh Vishariya (Mar 2025 - Present)",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Fund managers"
@@ -94,7 +94,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "tax",
       "content": "Tax implication: If you redeem within one year, returns are taxed at 20%. If you redeem after one year, returns exceeding Rs 1.25 lakh in a financial year are taxed at 12.5%. Check past data Fund management HV Hasmukh Vishariya Mar 2025 - Present View details Education Chartered Accountant Experience Prior to joining Tata MF he was associated with Star Union Dai-Ichi Life Insurance Ltd,",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Tax implication"
@@ -106,7 +106,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "stamp_duty",
       "content": "Stamp duty: 0.005% (from July 1st, 2020)",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Stamp duty"
@@ -118,7 +118,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "investment_objective",
       "content": "Investment objective: The scheme seeks long term capital appreciation by investing atleast 80% of its net assets in equity/equity related instruments of the companies in Information Technology Sector in India.",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Investment objective"
@@ -130,7 +130,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "nav",
       "content": "Latest NAV: ₹45.08.",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "NAV"
@@ -142,7 +142,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
       "section": "aum",
       "content": "Fund size (AUM): ₹9,660.01 Cr",
-      "extracted_at": "2026-06-28T11:24:06.599102+00:00",
+      "extracted_at": "2027-06-18T11:24:06.599102+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "AUM"

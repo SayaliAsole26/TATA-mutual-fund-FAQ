@@ -139,6 +139,7 @@ Use **https**, no trailing slash.
 
 | Document | Description |
 |----------|-------------|
+| [api-documentation.md](./api-documentation.md) | **REST API reference (HTTPS)** |
 | [end-to-end-guide.md](./end-to-end-guide.md) | Full architecture, API, deployment |
 | [source-list.md](./source-list.md) / [source-list.csv](./source-list.csv) | Corpus URLs |
 | [sample-qa.md](./sample-qa.md) | Example queries and answers |

@@ -136,6 +136,7 @@ Educational links: [AMFI Investor Corner](https://www.amfiindia.com/investor-cor
 
 ## Documentation
 
+- **[api-documentation.md](Docs%20folder/api-documentation.md)** — REST API reference (HTTPS)
 - **[Docs folder/README.md](Docs%20folder/README.md)** — setup, scope, known limits
 - **[source-list.md](Docs%20folder/source-list.md)** / **[source-list.csv](Docs%20folder/source-list.csv)** — 15 corpus URLs
 - **[sample-qa.md](Docs%20folder/sample-qa.md)** — example queries and answers
