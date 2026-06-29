@@ -108,5 +108,6 @@ jobs:
             echo "No metadata changes to commit."
           else
             git commit -m "chore(ingest): daily corpus metadata refresh [skip ci]" -m "Automated update from Daily Corpus Ingest workflow (10:00 IST)."
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
