@@ -22,6 +22,7 @@ export default function App() {
     "checking" | "ok" | "unreachable" | "no_index" | "no_groq"
   >("checking");
   const [ingestInfo, setIngestInfo] = useState<HealthResponse["ingest"]>();
+  const [corpusStale, setCorpusStale] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -29,22 +30,28 @@ export default function App() {
 
     const applyHealth = (h: HealthResponse): boolean => {
       setIngestInfo(h.ingest);
+      setCorpusStale(h.corpus?.status === "stale");
+
       if (h.llm && !h.llm.configured) {
         setApiStatus("no_groq");
         return false;
       }
-      if (h.status === "ok" && h.index?.status === "ok") {
-        setApiStatus("ok");
-        return false;
-      }
+
       const indexStatus = h.index?.status;
       if (indexStatus === "empty" || indexStatus === "missing_collection") {
         setApiStatus("no_index");
         const ingestStatus = h.ingest?.status;
-        // Keep polling while bootstrap runs or just finished (Chroma may lag briefly).
         return ingestStatus === "running" || ingestStatus === "succeeded";
       }
-      setApiStatus("unreachable");
+
+      // Index ready — chat is usable even when overall status is "degraded"
+      // (e.g. corpus_stale after 26h without a daily ingest run).
+      if (indexStatus === "ok") {
+        setApiStatus("ok");
+        return false;
+      }
+
+      setApiStatus("no_index");
       return true;
     };
 
@@ -119,7 +126,7 @@ export default function App() {
           <div className="mx-md mt-20 rounded-lg border border-error-container bg-error-container/20 px-md py-sm text-sm text-on-error-container">
             {import.meta.env.PROD ? (
               <>
-                Cannot reach the backend API.
+                Cannot reach the backend API — the health check request failed.
                 {!import.meta.env.VITE_API_BASE_URL && (
                   <>
                     {" "}
@@ -136,12 +143,13 @@ export default function App() {
                     {" "}
                     Check that{" "}
                     <code className="font-mono text-xs">
-                      {import.meta.env.VITE_API_BASE_URL.startsWith("http://")
+                      {(import.meta.env.VITE_API_BASE_URL.startsWith("http://")
                         ? import.meta.env.VITE_API_BASE_URL.replace(
                             "http://",
                             "https://",
                           )
-                        : import.meta.env.VITE_API_BASE_URL}
+                        : import.meta.env.VITE_API_BASE_URL
+                      ).replace(/\/$/, "")}
                     </code>{" "}
                     is running (use <strong>https://</strong> on Vercel) and that
                     Railway <code className="font-mono text-xs">CORS_ORIGINS</code>{" "}
@@ -163,6 +171,13 @@ export default function App() {
                 </code>
               </>
             )}
+          </div>
+        )}
+
+        {corpusStale && apiStatus === "ok" && (
+          <div className="mx-md mt-20 rounded-lg border border-secondary-container bg-secondary-container/20 px-md py-sm text-sm text-on-surface">
+            Corpus metadata is older than 26 hours — answers may be slightly out of
+            date. The daily ingest job will refresh Groww data automatically.
           </div>
         )}
 

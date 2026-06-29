@@ -77,6 +77,11 @@ export interface SchemesResponse {
 export interface HealthResponse {
   status: string;
   index: Record<string, unknown>;
+  corpus?: {
+    status: string;
+    age_hours?: number;
+    stale_after_hours?: number;
+  };
   llm?: {
     provider: string;
     configured: boolean;
