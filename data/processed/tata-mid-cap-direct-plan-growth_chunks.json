@@ -1,7 +1,7 @@
 {
   "scheme_id": "tata-mid-cap-direct-plan-growth",
   "chunk_count": 12,
-  "generated_at": "2026-07-13T07:49:29.342683+00:00",
+  "generated_at": "2026-07-14T06:35:50.889305+00:00",
   "chunks": [
     {
       "chunk_id": "tata-mid-cap-direct-plan-growth__expense_ratio__0",
@@ -10,7 +10,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "expense_ratio",
       "content": "Expense ratio: 0.84%",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Expense ratio"
@@ -22,7 +22,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "exit_load",
       "content": "Exit load: Exit load of 0.50%, if redeemed within 30 days.",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Exit load"
@@ -34,7 +34,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "min_sip",
       "content": "Minimum SIP amount: ₹100",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Minimum SIP"
@@ -46,7 +46,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "min_lumpsum",
       "content": "Minimum first investment (lumpsum): ₹5,000",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Minimum lumpsum"
@@ -58,7 +58,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "riskometer",
       "content": "Riskometer: Very High Risk",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Riskometer"
@@ -70,7 +70,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "benchmark",
       "content": "Benchmark: NIFTY Midcap 150 Total Return Index",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Benchmark"
@@ -82,7 +82,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "fund_managers",
       "content": "Fund manager(s): Satish Chandra Mishra (Mar 2021 - Present)",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Fund managers"
@@ -94,7 +94,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "tax",
       "content": "Tax implication: If you redeem within one year, returns are taxed at 20%. If you redeem after one year, returns exceeding Rs 1.25 lakh in a financial year are taxed at 12.5%.",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Tax implication"
@@ -106,7 +106,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "stamp_duty",
       "content": "Stamp duty: 0.005% (from July 1st, 2020)",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Stamp duty"
@@ -118,7 +118,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "investment_objective",
       "content": "Investment objective: The scheme seeks to provide income distribution and / or medium to long term capital gains. Investment would be focussed towards mid cap stocks.",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Investment objective"
@@ -129,8 +129,8 @@
       "scheme_name": "Tata Mid Cap Direct Plan Growth",
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "nav",
-      "content": "Latest NAV: ₹535.11.",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "content": "Latest NAV: ₹536.06.",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "NAV"
@@ -142,7 +142,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
       "section": "aum",
       "content": "Fund size (AUM): ₹5,868.39 Cr",
-      "extracted_at": "2026-07-13T07:49:29.342127+00:00",
+      "extracted_at": "2026-07-14T06:35:50.888955+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "AUM"
