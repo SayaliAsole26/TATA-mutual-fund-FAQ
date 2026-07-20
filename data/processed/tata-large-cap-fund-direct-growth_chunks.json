@@ -1,7 +1,7 @@
 {
   "scheme_id": "tata-large-cap-fund-direct-growth",
   "chunk_count": 12,
-  "generated_at": "2026-07-19T07:06:09.569347+00:00",
+  "generated_at": "2026-07-20T07:42:26.364768+00:00",
   "chunks": [
     {
       "chunk_id": "tata-large-cap-fund-direct-growth__expense_ratio__0",
@@ -10,7 +10,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "expense_ratio",
       "content": "Expense ratio: 1.24%",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Expense ratio"
@@ -22,7 +22,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "exit_load",
       "content": "Exit load: Exit load of 0.50%, if redeemed within 30 days.",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Exit load"
@@ -34,7 +34,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "min_sip",
       "content": "Minimum SIP amount: ₹100",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Minimum SIP"
@@ -46,7 +46,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "min_lumpsum",
       "content": "Minimum first investment (lumpsum): ₹5,000",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Minimum lumpsum"
@@ -58,7 +58,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "riskometer",
       "content": "Riskometer: Very High Risk",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Riskometer"
@@ -70,7 +70,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "benchmark",
       "content": "Benchmark: NIFTY 100 Total Return Index",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Benchmark"
@@ -82,7 +82,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "fund_managers",
       "content": "Fund manager(s): Abhinav Sharma (Apr 2023 - Present)",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Fund managers"
@@ -94,7 +94,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "tax",
       "content": "Tax implication: If you redeem within one year, returns are taxed at 20%. If you redeem after one year, returns exceeding Rs 1.25 lakh in a financial year are taxed at 12.5%.",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Tax implication"
@@ -106,7 +106,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "stamp_duty",
       "content": "Stamp duty: 0.005% (from July 1st, 2020)",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Stamp duty"
@@ -118,7 +118,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "investment_objective",
       "content": "Investment objective: Earlier known as Tata Twin Option (Equity), the scheme aims at medium to long term capital growth, with 100 per cent investments in the equity of large-cap, liquid blue-chip companies.",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Investment objective"
@@ -130,7 +130,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "nav",
       "content": "Latest NAV: ₹597.69.",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "NAV"
@@ -142,7 +142,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
       "section": "aum",
       "content": "Fund size (AUM): ₹2,721.33 Cr",
-      "extracted_at": "2026-07-19T07:06:09.568736+00:00",
+      "extracted_at": "2026-07-20T07:42:26.364162+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "AUM"
