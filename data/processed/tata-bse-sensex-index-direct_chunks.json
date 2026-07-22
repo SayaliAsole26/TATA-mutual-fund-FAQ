@@ -1,7 +1,7 @@
 {
   "scheme_id": "tata-bse-sensex-index-direct",
   "chunk_count": 12,
-  "generated_at": "2026-07-21T07:07:07.489771+00:00",
+  "generated_at": "2026-07-22T07:09:02.080821+00:00",
   "chunks": [
     {
       "chunk_id": "tata-bse-sensex-index-direct__expense_ratio__0",
@@ -10,7 +10,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "expense_ratio",
       "content": "Expense ratio: 0.33%",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Expense ratio"
@@ -22,7 +22,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "exit_load",
       "content": "Exit load: Exit load of 0.25% if redeemed within 7 days",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Exit load"
@@ -34,7 +34,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "min_sip",
       "content": "Minimum SIP amount: ₹150",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Minimum SIP"
@@ -46,7 +46,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "min_lumpsum",
       "content": "Minimum first investment (lumpsum): ₹5,000",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Minimum lumpsum"
@@ -58,7 +58,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "riskometer",
       "content": "Riskometer: Very High Risk",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Riskometer"
@@ -70,7 +70,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "benchmark",
       "content": "Benchmark: BSE Sensex Total Return Index",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Benchmark"
@@ -82,7 +82,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "fund_managers",
       "content": "Fund manager(s): Rakesh Prajapati (Dec 2024 - Present)",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Fund managers"
@@ -94,7 +94,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "tax",
       "content": "Tax implication: If you redeem within one year, returns are taxed at 20%. If you redeem after one year, returns exceeding Rs 1.25 lakh in a financial year are taxed at 12.5%.",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Tax implication"
@@ -106,7 +106,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "stamp_duty",
       "content": "Stamp duty: 0.005% (from July 1st, 2020)",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "Stamp duty"
@@ -118,7 +118,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "investment_objective",
       "content": "Investment objective: The scheme aims to provide medium to long term capital gains, by investing in equity shares of only those companies comprised in the BSE Sensex and in the same proportion as that of the index, regardless of their investment merit.",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "cleaned_fallback",
       "section_label": "Investment objective"
@@ -129,8 +129,8 @@
       "scheme_name": "Tata BSE Sensex Index Direct",
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "nav",
-      "content": "Latest NAV: ₹207.87.",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "content": "Latest NAV: ₹207.23.",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "NAV"
@@ -142,7 +142,7 @@
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
       "section": "aum",
       "content": "Fund size (AUM): ₹384.75 Cr",
-      "extracted_at": "2026-07-21T07:07:07.489196+00:00",
+      "extracted_at": "2026-07-22T07:09:02.080245+00:00",
       "chunk_index": 0,
       "chunk_source": "processed",
       "section_label": "AUM"
