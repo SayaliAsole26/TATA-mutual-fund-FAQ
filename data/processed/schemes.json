@@ -4,7 +4,7 @@
     "tata-small-cap-fund-direct-growth": {
       "scheme_name": "Tata Small Cap Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-small-cap-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:26.285366+00:00",
+      "last_ingested_at": "2026-07-26T07:10:39.111486+00:00",
       "expense_ratio": "0.50%",
       "min_sip": "₹100",
       "min_lumpsum": "₹5,000",
@@ -17,7 +17,7 @@
     "tata-digital-india-fund-direct-growth": {
       "scheme_name": "Tata Digital India Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-digital-india-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:26.861373+00:00",
+      "last_ingested_at": "2026-07-26T07:10:39.629050+00:00",
       "expense_ratio": "0.67%",
       "min_sip": "₹100",
       "min_lumpsum": "₹5,000",
@@ -30,7 +30,7 @@
     "tata-silver-etf-fof-direct-growth": {
       "scheme_name": "Tata Silver ETF FoF Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-silver-etf-fof-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:27.464009+00:00",
+      "last_ingested_at": "2026-07-26T07:10:39.993235+00:00",
       "expense_ratio": "0.22%",
       "min_sip": "₹150",
       "min_lumpsum": "₹5,000",
@@ -43,7 +43,7 @@
     "tata-ethical-fund-direct-growth": {
       "scheme_name": "Tata Ethical Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-ethical-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:27.961583+00:00",
+      "last_ingested_at": "2026-07-26T07:10:40.592564+00:00",
       "expense_ratio": "0.85%",
       "min_sip": "₹100",
       "min_lumpsum": "₹5,000",
@@ -56,7 +56,7 @@
     "tata-arbitrage-fund-direct-growth": {
       "scheme_name": "Tata Arbitrage Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-arbitrage-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:28.594186+00:00",
+      "last_ingested_at": "2026-07-26T07:10:41.379927+00:00",
       "expense_ratio": "1.71%",
       "min_sip": "₹150",
       "min_lumpsum": "₹5,000",
@@ -69,7 +69,7 @@
     "tata-nifty-capital-markets-index-fund-direct-growth": {
       "scheme_name": "Tata Nifty Capital Markets Index Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-nifty-capital-markets-index-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:29.919762+00:00",
+      "last_ingested_at": "2026-07-26T07:10:42.002571+00:00",
       "expense_ratio": "0.70%",
       "min_sip": "₹100",
       "min_lumpsum": "₹5,000",
@@ -82,7 +82,7 @@
     "tata-resources-energy-fund-direct-growth": {
       "scheme_name": "Tata Resources & Energy Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-resources-energy-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:30.554038+00:00",
+      "last_ingested_at": "2026-07-26T07:10:42.599192+00:00",
       "expense_ratio": "0.84%",
       "min_sip": "₹100",
       "min_lumpsum": "₹5,000",
@@ -95,7 +95,7 @@
     "tata-elss-fund-direct-growth": {
       "scheme_name": "Tata ELSS Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-elss-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:31.133873+00:00",
+      "last_ingested_at": "2026-07-26T07:10:43.148070+00:00",
       "expense_ratio": "0.90%",
       "min_sip": "₹500",
       "min_lumpsum": "₹500",
@@ -109,8 +109,8 @@
     "tata-multicap-fund-direct-growth": {
       "scheme_name": "Tata Multicap Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-multicap-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:31.646121+00:00",
-      "expense_ratio": "0.77%",
+      "last_ingested_at": "2026-07-26T07:10:43.623439+00:00",
+      "expense_ratio": "0.78%",
       "min_sip": "₹150",
       "min_lumpsum": "₹5,000",
       "stamp_duty": "0.005% (from July 1st, 2020)",
@@ -122,7 +122,7 @@
     "tata-ultra-short-term-fund-direct-growth": {
       "scheme_name": "Tata Ultra Short Term Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-ultra-short-term-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:32.134067+00:00",
+      "last_ingested_at": "2026-07-26T07:10:44.284569+00:00",
       "expense_ratio": "0.32%",
       "min_sip": "₹500",
       "min_lumpsum": "₹5,000",
@@ -135,8 +135,8 @@
     "tata-mid-cap-direct-plan-growth": {
       "scheme_name": "Tata Mid Cap Direct Plan Growth",
       "source_url": "https://groww.in/mutual-funds/tata-mid-cap-direct-plan-growth",
-      "last_ingested_at": "2026-07-25T06:38:32.833967+00:00",
-      "expense_ratio": "0.84%",
+      "last_ingested_at": "2026-07-26T07:10:45.030790+00:00",
+      "expense_ratio": "0.85%",
       "min_sip": "₹100",
       "min_lumpsum": "₹5,000",
       "stamp_duty": "0.005% (from July 1st, 2020)",
@@ -148,7 +148,7 @@
     "tata-flexi-cap-fund-direct-growth": {
       "scheme_name": "Tata Flexi Cap Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-flexi-cap-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:33.524934+00:00",
+      "last_ingested_at": "2026-07-26T07:10:45.696555+00:00",
       "expense_ratio": "0.84%",
       "min_sip": "₹100",
       "min_lumpsum": "₹5,000",
@@ -161,7 +161,7 @@
     "tata-large-cap-fund-direct-growth": {
       "scheme_name": "Tata Large Cap Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-large-cap-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:34.121920+00:00",
+      "last_ingested_at": "2026-07-26T07:10:46.288923+00:00",
       "expense_ratio": "1.24%",
       "min_sip": "₹100",
       "min_lumpsum": "₹5,000",
@@ -174,7 +174,7 @@
     "tata-floater-fund-direct-growth": {
       "scheme_name": "Tata Floater Fund Direct Growth",
       "source_url": "https://groww.in/mutual-funds/tata-floater-fund-direct-growth",
-      "last_ingested_at": "2026-07-25T06:38:34.748399+00:00",
+      "last_ingested_at": "2026-07-26T07:10:46.917957+00:00",
       "expense_ratio": "0.27%",
       "min_sip": "₹500",
       "min_lumpsum": "₹5,000",
@@ -187,7 +187,7 @@
     "tata-bse-sensex-index-direct": {
       "scheme_name": "Tata BSE Sensex Index Direct",
       "source_url": "https://groww.in/mutual-funds/tata-bse-sensex-index-direct",
-      "last_ingested_at": "2026-07-25T06:38:35.462190+00:00",
+      "last_ingested_at": "2026-07-26T07:10:47.487412+00:00",
       "expense_ratio": "0.33%",
       "min_sip": "₹150",
       "min_lumpsum": "₹5,000",
